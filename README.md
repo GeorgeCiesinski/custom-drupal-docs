@@ -11,3 +11,10 @@ The included documentation covers the tools, resources, standards, and other log
 You can view the documentation here: 
 
 <a href="//github.com/Humber-ITS/ITS-site-documentation/blob/main/ITS-Website-Documentation.pdf">PDF</a>
+
+If you are actively developing the site, it is recommended to clone the respository instead of downloading the PDF manually. This will allow you to pull from the repository to check if there is any updates: 
+
+```
+git status
+git pull origin main
+```
