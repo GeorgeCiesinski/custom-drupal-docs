@@ -15,6 +15,6 @@ You can view the documentation here:
 If you are actively developing the site, it is recommended to clone the respository instead of downloading the PDF manually. This will allow you to pull from the repository to check if there is any updates: 
 
 ```
-git status
+git fetch
 git pull origin main
 ```
