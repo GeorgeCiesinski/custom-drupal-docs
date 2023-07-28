@@ -187,3 +187,58 @@ Learn more about [Updating Themes](https://www.drupal.org/docs/user_guide/en/sec
 
 Updates should be made on the development website and tested thoroughly before pushing to production. This would help with catching any incompatibilities or issues that may come up from the updates.  
 
+#### Settings.php
+
+The `settings.php` file contains sensitive data about the website such as the database connection, trusted host, and configuration information. 
+This file should NOT be uploaded to Github. Instead, it should be backed up in a secure location. 
+
+The file is also read-only by default which is required to ensure the site is secure, however, there are many instances where the administrator may have to edit this file. The instructions to do this are below.
+
+##### Location of the settings.php file
+
+The settings file can be found in: `/project-folder/web/sites/default/`
+
+##### Making changes to settings.php
+
+The `settings.php` file is read-only by default which is a security precaution to ensure the site is not able to alter it in any way. In order to make changes, you must locally change the permission of the file to give yourself write access, make the required changes, and once again harden the permissions. This ensures that the file contents are only changed in an authorized way and not by malicious actors. 
+
+1.	Open the terminal and `cd` into the [settings.php directory](#location-of-the-settingsphp-file). 
+2.	Make the file editable:
+
+    ```shell title="Add write permissions to settings.php"
+    chmod a+w settings.php
+    ```
+
+3. Make the required changes using a text editor like vim or nano.
+4. Harden the permissions after editing the file: 
+
+    ```shell title="Add write permissions to settings.php"
+    chmod 444 settings.php (Results in permissions -r-r--r--)
+    ```    
+
+##### Frequently Required settings.php Changes
+
+###### Trusted-Host
+
+The trusted host settings tell the website which hosts are authorized to access the site. This is an important security measure to ensure that fraudulent hosts cannot be used to access the site or create unauthorized clones.
+
+This setting essentially tells the site which URL is allowed to access the site, and it affects both the production/live version of the site and the local development version. In the event that the host name changes, the trusted host settings must be modified to reflect this. 
+
+The trusted host setting looks like this in settings.php: 
+
+```shell title="Trusted-host settings" linenums="1"
+$settings['trusted_host_patterns'] = [
+  '^www\.its-cab\.test$',
+  '^its-cab\.test$'
+];
+```
+
+This is an array containing multiple comma-separated lines with the various host patterns. The standard is to indent each line with two spaces. The patterns themselves are defined using REGEX. 
+
+###### Update Free Access
+
+This setting is used during core updates. 
+
+Todo:
+
+* Complete this section
