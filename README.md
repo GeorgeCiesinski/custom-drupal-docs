@@ -2,45 +2,76 @@
 
 This repository houses the documentation for multiple Humber ITS Websites: 
 
-- its-site
-- its-cab
-- its-gallery
+* its-site
+* its-cab
+* its-gallery
 
-## Using the Docs
+These docs are built using [MkDocs](https://www.mkdocs.org/) and the [Material Theme](https://squidfunk.github.io/mkdocs-material/). MkDocs is a static site generator that converts markdown files into beautiful documentation and makes the process of creating documentation very quick and easy.  
 
-### (Name)-Website-Documentation.pdf
+## Updating the Docs
 
-These PDFs are the first place to start when looking at the documentation for a site. Each of the Humber ITS sites has a document that follows this name convention.
+In order to make changes, it is recommended to clone and setup the project locally. 
 
-These documents contain all of the unique information and instructions that are only relevant to that particular site. If you see any section that advises you to look at `Drupal-Websites.pdf` this means that the information in that section applies to multiple sites. 
+### Cloning Repository
 
-### Drupal-Websites.pdf
+#### Requirements
 
-This document contains all of the information and instructions that apply to all of the Drupal sites. This may include information such as backing up and restoring Drupal sites, updating core or modules, etc. 
+* Github CLI or Git
 
-## View Documentation
+#### Steps
 
-# Maintainer
+<ol>
+    <li>Click the <code><> Code</code> button and select <code>GitHub CLI</code>, then click the <strong>copy</strong> button.</li>
+    <img src='img/clone.png'></img>
+    <li><code>cd</code> into the directory where you want to clone this project using Terminal.</li>
+    <li>Paste and run the command you copied in step 1.</li>
+</ol>
 
-A maintainer is someone who periodically adds content to the site without changing any code or structures in the site. If you are a maintainer, it is recommended to download the files in this repository normally. If any period of time passes between updates, it is advisable to visit this page again to see if the documentation has been updated and download the newest version. 
+### Local Setup
 
-# Developer
+These steps are for first time setup after cloning this repository. 
 
-A developer is someone who updates core or module files, or changes the content types and structures of the website. It is recommended for developers to clone the repository locally and always check for updates using:
+#### Requirements
 
-```
-git fetch
-git pull origin main
-```
+* Cloned Repository (See above)
+* Python 3 (3.11.4 or later recommended)
+* Pip3
 
-## Update Documents
+#### Steps
 
-### Raw Files
+**Note:** The following instructions are applicable on Mac and Linux, so Windows users may need to look up how to create and activate a virtual environment. You also may need to use `python` and `pip` instead of `python3` and `pip3`. This depends on your local setup and how the binaries were added to your path during Python setup. 
 
-The Microsoft docx files are located in the `/Raw/` folder. This is where any changes can be made to the docs themselves. 
+<ol>
+    <li><code>cd</code> into the newly cloned repository using Terminal.</li>
+    <li>Create a virtual environment using the command:</li>
+    <code>python3 -m venv venv</code>
+    <li>Activate the virtual environment using the command:</li>
+    <code>venv/bin/activate</code>
+    <p>If this is done correctly, you should see <code>(venv)</code> in the Terminal.</p>
+    <li>Install the requirements using the command:</li>
+    <code>pip3 install -r requirements.txt</code>
+    <p>The project should now be installed and ready to use.</p>
+</ol>
 
-When adding content, use the various headers to organize the content in a similar way to the rest of the document.
+### Usage
 
-Prior to saving any changes, go to the Table of Contents, click the down arrow beside the Table of Contents header, and click `Update Table`. In the pop-up, click `Update entire table`. This updates the TOC with all of the newly added headers, as well as any page changes the updates caused. If the changes are significant enough, increase the version of the document on the cover page. 
+#### Requirements
 
-Finally, save a PDF version of the document in the `humber-sites-docs` root directory (not in `/Raw/`). This can be done by clicking File > Print and then the PDF button in the bottom left of the print dialog. Once this is done, add the files to git, commit, and push them up to origin. 
+* Project Cloned and Setup
+* Virtual Environment must be active
+
+#### Serve
+
+MkDocs can generate a local development version of the documentation site. Use the command `mkdocs serve` to create a local development version which updates as you make changes. This will output a local URL which you can open in browser to see the docs:
+
+`Serving on http://127.0.0.1:8000/`
+
+#### Build
+
+MkDocs can also build the production version of the documentation site. Use the command `mkdocs build` to build the production version. This will update the `site/` directory with the files and assets needed to open the site on the production server. 
+
+### Pushing Updates
+
+It is recommended to use Git and Git-flow when pushing changes to the documentation. All development should take place on the `develop` branch. When building a new section of the documentation, please checkout the Develop branch before creating a new branch called `feature/descriptive-name`. The completed changes can be merged back into `develop` where they can be either tested or combined with other changes. If the `develop` branch is tested and working properly, the changes can finally be merged into `main`.
+
+This will ensure that changes are compartmentalized and can be easily reversed in case of any issues. 
