@@ -2,18 +2,21 @@
 
 These docs are for Drupal websites built for Humber ITS. 
 
-## Using these Docs
+## Start Date
 
-Todo:
+The design & build process for the ITS websites started on April 2023. 
 
-* Add site links once they are public
-* Update Using these Docs
+## Team
 
-## Updating these Docs
+* **Lora Nasim** - Coordinator
+* **George Ciesinski** – Web Developer
+* **Michael Boadu** – Marketing and Communications Coordinator 
+
+## Documentation
 
 These docs were built using MkDocs and the Material for MkDocs theme.
 
-### Documentation
+### MkDocs
 
 For MkDocs documentation visit [mkdocs.org](https://www.mkdocs.org).
 

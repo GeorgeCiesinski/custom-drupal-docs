@@ -4,6 +4,7 @@ theme:
   logo: assets/humber-white-logo.svg
   favicon: assets/humber-favicon.png
   features:
+    - navigation.instant
     - navigation.tabs
     - navigation.sections
     - toc.integrate  # Integrates the TOC into the side nav
