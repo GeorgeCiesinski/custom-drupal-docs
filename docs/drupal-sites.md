@@ -34,6 +34,8 @@ The Humber ITS Drupal Stack uses:
 
 ## Development
 
+This section is primarily for developers. It covers backing up and restoring both the Drupal Sites, and their corresponding databases. In addition to this, it also covers carrying out maintenance tasks, and important development concepts such as the `settings.php` file and other configuration files. 
+
 ### Backups
 
 It is important to back up the website whenever there is a core/module update, or when significant amounts of content are added. This ensures that the site can be restored in case of any unforeseen event. Additionally, this allows us to migrate the site from one server to another if needed.
@@ -274,6 +276,8 @@ Administrator users have access to all of the functions of Drupal. They are not 
 ### Additional Roles
 
 Various roles can be created on the site. These roles can be named anything you want, and the permissions for each role can be customized in many ways. For example, it is possible what content an account can see, edit, create and delete. There is much more to the permissions system, so to get a thorough understanding of it, it is necessary to dig into the official Drupal docs. 
+
+To see the specific roles which were created on the various Drupal sites, please visit the **Roles** section in the Specific Documentation for that particular site.
 
 Learn more about [Managing User Accounts](https://www.drupal.org/docs/user_guide/en/user-chapter.html).
 

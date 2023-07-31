@@ -6,7 +6,7 @@ nav:
   - 'cab-website.md'
 theme:
   name: material
-  logo: assets/humber-white-logo.svg
+  logo: assets/humber-logo-white-150x150.svg
   favicon: assets/humber-favicon.png
   features:
     - navigation.instant
