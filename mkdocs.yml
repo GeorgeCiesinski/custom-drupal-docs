@@ -1,4 +1,9 @@
 site_name: Humber ITS Sites
+nav:
+  - 'index.md'
+  - 'drupal-sites.md'
+  - 'its-website.md'
+  - 'cab-website.md'
 theme:
   name: material
   logo: assets/humber-white-logo.svg
@@ -6,9 +11,11 @@ theme:
   features:
     - navigation.instant
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
-    - toc.integrate  # Integrates the TOC into the side nav
     - navigation.top
+    - navigation.path
+    - toc.integrate  # Integrates the TOC into the side nav
     - search.suggest
     - search.highlight
     - content.tabs.link
@@ -28,12 +35,10 @@ theme:
         name: Switch to light mode    
       primary: indigo
       accent: light blue
-
 extra:
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/Humber-ITS
-
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -50,10 +55,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-
 plugins:
   - search
   - glightbox
-
 copyright: |
   &copy; 2023 <a href="https://github.com/Humber-ITS"  target="_blank" rel="noopener">Humber College</a>

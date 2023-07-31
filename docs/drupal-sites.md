@@ -6,16 +6,6 @@ This document contains information that is shared between all the Humber ITS Web
 
 This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
 
-### Start Date
-
-The design & build process for the ITS websites started on April 2023. 
-
-### Team
-
-* **Lora Nasim** - Coordinator
-* **George Ciesinski** – Web Developer
-* **Michael Boadu** – Marketing and Communications Coordinator 
-
 ### Requirements
 
 The ITS website serves tens of thousands of Faculty Members, Staff and Students in a College environment. The below requirements will help to provide a positive and secure experience to all website users: 
@@ -35,7 +25,7 @@ The ITS website serves tens of thousands of Faculty Members, Staff and Students 
 
 ### Stack
 
-The Humber ITS Stack uses:
+The Humber ITS Drupal Stack uses:
 
 * Linux OS
 * Apache Server
@@ -394,4 +384,14 @@ https://www.drupal.org/project/field_permissions
 
 Provides field level permissions for different roles.
 
+## Administration
 
+### One Time Login
+
+**Note:** drush is required in order to follow these steps.
+
+If a user is unable to login for some reason, it is possible to send them a one-time login using drush uli. If successful, it will output a URL that the user can use to login and change their password. 
+
+```shell title="Generate a one-time login link" linenums="1"
+drush uli --name=username  --uri=website-url
+```
