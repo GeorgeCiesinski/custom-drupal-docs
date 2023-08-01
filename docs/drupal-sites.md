@@ -36,6 +36,27 @@ The Humber ITS Drupal Stack uses:
 
 This section is primarily for developers. It covers backing up and restoring both the Drupal Sites, and their corresponding databases. In addition to this, it also covers carrying out maintenance tasks, and important development concepts such as the `settings.php` file and other configuration files. 
 
+### Development Tools
+
+#### Composer
+
+In order to make maintenance easier, all of the Humber ITS Drupal Sites were built using [Composer](https://getcomposer.org/). 
+
+Learn more about [Using Composer to Install Drupal and Manage Dependencies](https://www.drupal.org/docs/develop/using-composer/manage-dependencies).
+
+#### Drush
+
+[Drush](https://www.drush.org/) provides command-line tools for all of the Humber ITS Drupal Sites and is required to carry out some of the steps outlined further in these docs.
+
+##### Installing Drush
+
+**Note:** If you cloned the existing site repositories, then it is likely that drush was automatically installed via the `composer.json` file in the site repository and does not need to be installed again. These instructions are mainly for any new Humber ITS Drupal sites. 
+
+Drush can be installed using Composer: 
+
+1. `cd` into the website root folder using Terminal.
+2. Install drush using the command: `composer require --dev drush/drush`
+
 ### Backups
 
 It is important to back up the website whenever there is a core/module update, or when significant amounts of content are added. This ensures that the site can be restored in case of any unforeseen event. Additionally, this allows us to migrate the site from one server to another if needed.

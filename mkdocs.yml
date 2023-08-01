@@ -4,6 +4,7 @@ nav:
   - 'drupal-sites.md'
   - 'its-website.md'
   - 'cab-website.md'
+  - 'development-environment.md'
 theme:
   name: material
   logo: assets/humber-logo-white-150x150.svg
@@ -14,8 +15,7 @@ theme:
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.top
-    - navigation.path
-    - toc.integrate  # Integrates the TOC into the side nav
+    - toc.integrate
     - search.suggest
     - search.highlight
     - content.tabs.link
