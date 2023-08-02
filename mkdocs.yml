@@ -5,6 +5,7 @@ nav:
   - 'its-website.md'
   - 'cab-website.md'
   - 'development-environment.md'
+  - 'developer-tools.md'
 theme:
   name: material
   logo: assets/humber-logo-white-150x150.svg

@@ -14,11 +14,9 @@ The ITS website serves tens of thousands of Faculty Members, Staff and Students 
 2.	**Optimization** – All images, videos, and other assets should be optimized before usage on the site to ensure a fast browsing experience.
 3.	**Accessibility** – Content should meet the accessibility requirements outlined in the AODA (Accessibility for Ontarians with Disabilities Act) 
 
-### Tools 
+### Guidelines
 
 [HUMBER WEB ACCESSIBILITY COMPLIANCE (AODA)](https://humber.ca/tutorial/web-accessibility-compliance.html) - provide access to the WCAG Quick-Reference guide and AODA Compliance Reference, as well as various tools that assist in evaluating Web Accessibility. 
-
-### Guidelines
 
 [Humber Interim Web Guidelines](https://humber.ca/brand/sites/default/files/publications/interim-web-guidelines.pdf
 ) - provides guidelines for standards Humber Websites should meet.
@@ -36,117 +34,48 @@ The Humber ITS Drupal Stack uses:
 
 This section is primarily for developers. It covers backing up and restoring both the Drupal Sites, and their corresponding databases. In addition to this, it also covers carrying out maintenance tasks, and important development concepts such as the `settings.php` file and other configuration files. 
 
-### Development Tools
+For more information about developer tools, see the [Developer Tools](./developer-tools.md) documentation. 
 
-#### Composer
+### Version Control Using Git
 
-In order to make maintenance easier, all of the Humber ITS Drupal Sites were built using [Composer](https://getcomposer.org/). 
+The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
 
-Learn more about [Using Composer to Install Drupal and Manage Dependencies](https://www.drupal.org/docs/develop/using-composer/manage-dependencies).
+**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development.
 
-#### Drush
+#### Gitignore
 
-[Drush](https://www.drush.org/) provides command-line tools for all of the Humber ITS Drupal Sites and is required to carry out some of the steps outlined further in these docs.
+A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
 
-##### Installing Drush
-
-**Note:** If you cloned the existing site repositories, then it is likely that drush was automatically installed via the `composer.json` file in the site repository and does not need to be installed again. These instructions are mainly for any new Humber ITS Drupal sites. 
-
-Drush can be installed using Composer: 
-
-1. `cd` into the website root folder using Terminal.
-2. Install drush using the command: `composer require --dev drush/drush`
+Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
 
 ### Backups
 
-It is important to back up the website whenever there is a core/module update, or when significant amounts of content are added. This ensures that the site can be restored in case of any unforeseen event. Additionally, this allows us to migrate the site from one server to another if needed.
+It is important to back up the website frequently to prevent data loss.
 
-Backups are very important and should be tested to ensure it is possible to restore the site from the backups.
+It is an especially good idea to carry out a full backup when:
 
-#### Complete Backup
+* Updating or Upgrading
+* Migrating, copying, moving, or replacing files or the whole site
+* When there has been significant content added
+
+Backups should also be tested periodically to ensure it is possible to restore the site from the backups.
+
+#### Creating a Full Backup
 
 In order to make a complete backup, several parts of the Drupal site must be backed up separately. 
 
-1.	Source Code / Web Root
+1. [Back up site files](#backup-site-files)
+2. [Backup Database](#backup-database)
 
-Todo: 
+##### Backup Site Files
 
-* Add remaining backup steps
 
-The Drupal root folder must be backed up with Git. It is important to note that a Git backup is incomplete and doesn’t backup the `settings.php` file or the database. 
 
-#### Git
-
-Git is a kind of version control used by the Humber ITS team to back up Drupal site directories. This is not a complete back-up of the site, but instead contains changes to source code and some configurations for the site. 
-
-Learn more about [managing the repository using Git](https://www.drupal.org/docs/user_guide/en/extend-git.html).
-
-##### Requirements
-
-1. Basic Git knowledge - Learn more about [becoming a git guru](https://www.atlassian.com/git/tutorials).
-
-2. Basic understanding of Git-flow - It is extremely encouraged to maintain git-flow when pushing commits to the site repositories. Learn more about [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-
-###### Branch Types
-
-**Main** - Permanent Branch
-
-> This is the production branch and is a permanent branch. Only new versions should be pushed to the main branch. 
-
-**Develop** - Permanent Branch
-
-> This is the main development branch and is the second permanent branch. New features and hotfixes should branch off from the develop branch, and then back into it when complete. Release branches should also branch out from develop before being merged into main. 
-
-> This branch only needs to be created once:
-
-```shell title="Create develop branch and push to origin"
-git checkout -b develop 
-git push --set-upstream origin develop
-```
-
-**Feature**
-
-> This is a new feature. It can be a new element, new logic, or any other code that results in a new feature being added to the project. 
-
-```shell title="Create a new feature branch"
-git checkout -b feature/descriptive-title
-```
-
-**Hotfix**
-
-> This is essentially a bug fix. A hotfix branch would be created specifically to address a bug or issue. Like the feature branch, the changes can later be merged back into develop. 
-
-```shell title="Create a new hotfix branch"
-git checkout -b hotfix/descriptive-title
-```
-
-**Release**
-
-> Unlike Feature or hotfix, a release branch is typically a child of develop and is merged into main. The purpose of the release branch is to do final testing and last-minute changes before creating a tagged release on the main branch. 
-
-```shell title="Create a new release branch"
-git checkout -b release/feature-name
-```
-
-##### Additional Info
-
-Some more information can be found in these links. These are meant to get a better understanding of how Git can be used on a Drupal site, as well as best practices and the Git-flow method of creating branches. It should not be used in place of the other instructions in this document. 
-
-[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
-
-[Managing File and Configuration Revisions with Git](https://www.drupal.org/docs/user_guide/en/extend-git.html)
-
-[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
-
-[Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
-
-#### Backup Database
+##### Backup Database
 
 Todo: 
 
 * Complete this section
-
-##### Additional Info
 
 [Concept: Data Backups](https://www.drupal.org/docs/user_guide/en/prevent-backups.html)
 
