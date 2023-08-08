@@ -83,3 +83,25 @@ Drush can be installed using Composer:
 
 1. `cd` into the website root folder using Terminal.
 2. Install drush using the command: `composer require --dev drush/drush`
+
+### Drush Actions
+
+There are a number of actions that can be performed using Drush. This section contains the actions which are commonly used in Humber ITS Drupal sites. 
+
+#### Clear Cache
+
+This is the quickest way to clear cache and is very useful when developing custom themes. Sometimes, changes to the theme do not reflect on the page due to outdated cache information. Run this command before refreshing the page to ensure the changes are rendered by the site:
+
+```shell title="Clear cache using Drush"
+drush cr
+```
+
+#### One Time Login
+
+**Note:** drush is required in order to follow these steps.
+
+If a user is unable to login for some reason, it is possible to send them a one-time login using drush uli. If successful, it will output a URL that the user can use to login and change their password. 
+
+```shell title="Generate a one-time login link" linenums="1"
+drush uli --name=username  --uri=website-url
+```

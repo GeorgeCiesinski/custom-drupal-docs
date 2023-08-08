@@ -6,6 +6,8 @@ This document contains information that is shared between all the Humber ITS Web
 
 This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
 
+**Warning:** There are many links I have included across various sections of this documentation. Many of these links contain good information, but many also contain outdated information from older versions of Drupal. This is unfortunately the nature of open-source documentation. I have done my best to sift through this data and only include accurate and current information in this documentation. For that reason, the links are only intended to provide insight into changes from older versions of Drupal, or to reinforce certain points made in this documentation which I have confirmed is correct. 
+
 ### Requirements
 
 The ITS website serves tens of thousands of Faculty Members, Staff and Students in a College environment. The below requirements will help to provide a positive and secure experience to all website users: 
@@ -40,94 +42,13 @@ For more information about developer tools, see the [Developer Tools](./develope
 
 The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
 
-**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development.
+**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, see [Backup and Restore](backup-restore.md).
 
 #### Gitignore
 
 A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
 
 Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
-
-### Backups
-
-It is important to back up the website frequently to prevent data loss.
-
-It is an especially good idea to carry out a full backup when:
-
-* Updating or Upgrading
-* Migrating, copying, moving, or replacing files or the whole site
-* When there has been significant content added
-
-Backups should also be tested periodically to ensure it is possible to restore the site from the backups.
-
-#### Creating a Full Backup
-
-In order to make a complete backup, several parts of the Drupal site must be backed up separately. 
-
-1. [Back up site files](#backup-site-files)
-2. [Backup Database](#backup-database)
-
-##### Backup Site Files
-
-
-
-##### Backup Database
-
-Todo: 
-
-* Complete this section
-
-[Concept: Data Backups](https://www.drupal.org/docs/user_guide/en/prevent-backups.html)
-
-[Back up your site using the command-line](https://www.drupal.org/docs/7/backing-up-and-migrating-a-site/back-up-your-site-using-the-command-line)
-
-[Pg_dump Documentation](https://www.postgresql.org/docs/7.1/app-pgdump.html)
-
-[Pg_restore Documentation](https://www.postgresql.org/docs/7.1/app-pgrestore.html)
-
-### Development Site
-
-It is not recommended to carry out core and module updates on the live/production version of the site because it could introduce breaking changes that are difficult to reverse. It may also result in an unexpected outage. Instead, it is recommended to set up a local development site which is essentially a clone of the live/production server. The process of setting up a local development site can also be used to verify the integrity of the backup files. 
-
-This development site is used for updates and major changes as well as for testing. Once the testing is complete, the changes can be pushed to the live site. 
-
-[Making a Development Site](https://www.drupal.org/docs/user_guide/en/install-dev-making.html)
-
-### Site Maintenance
-
-Presents message that the site is under maintenance to users who do not have the right permissions. Authorized users can maintain the site and update content during this time. 
-
-[Enabling and Disabling Maintenance Mode](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
-
-#### Core and Module Update
-
-Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. In many cases, it is beneficial to update these components to ensure that the Humber site is secure and working correctly.
-
-##### How to tell there's updates?
-
-Updates can be checked using the Admin toolbar on the website by visiting the Available Updates section. 
-
-`Reports` > `Available Updates`
-
-This will show a screen like this which shows if Drupal core and modules are up to date:
-
-![Available Updates](assets/drupal-sites/updates.png)
-
-If any of these components do not show `Up to date` and a green check mark, those components may have updates.
-
-##### Should I update?
-
-Updates should be made if they address a security flaw or a bug that may affect the website. You can check this by visiting the pages of the Drupal core version or the module project pages and reading the release notes. Any significant changes will be listed there, and a decision can be made based on this information.
-
-Learn more about [Updating Core Software](https://www.drupal.org/docs/user_guide/en/install-composer.html).
-
-Learn more about [Updating Modules](https://www.drupal.org/docs/user_guide/en/security-update-module.html).
-
-Learn more about [Updating Themes](https://www.drupal.org/docs/user_guide/en/security-update-theme.html).
-
-##### Testing Updates
-
-Updates should be made on the development website and tested thoroughly before pushing to production. This would help with catching any incompatibilities or issues that may come up from the updates.  
 
 ### Settings.php
 
@@ -281,7 +202,7 @@ Shared Modules are any modules that are used across most or all of the Humber IT
 
 #### Admin Toolbar
 
-https://www.drupal.org/project/admin_toolbar
+[https://www.drupal.org/project/admin_toolbar](https://www.drupal.org/project/admin_toolbar)
 
 Improves the default toolbar and changes it into a drop-down menu with fast access to each administrative page. 
 In the Extend menu, the following options are also enabled: 
@@ -292,7 +213,7 @@ In the Extend menu, the following options are also enabled:
 
 #### R4032 Login
 
-https://www.drupal.org/project/r4032login
+[https://www.drupal.org/project/r4032login](https://www.drupal.org/project/r4032login)
 
 This module redirects anonymous users to login if the content they are trying to view requires a certain level of permissions. 
 
@@ -310,42 +231,42 @@ Gin theme is an administrator theme with a number of useful submodules.
 
 ##### Gin Admin Theme
 
-https://www.drupal.org/project/gin
+[https://www.drupal.org/project/gin](https://www.drupal.org/project/gin)
 
 Beautiful Admin theme.
 
 ##### Gin Login
 
-https://www.drupal.org/project/gin_login
+[https://www.drupal.org/project/gin_login](https://www.drupal.org/project/gin_login)
 
 Improved login page.
 
 ##### Gin Toolbar
 
-https://www.drupal.org/project/gin_toolbar
+[https://www.drupal.org/project/gin_toolbar](https://www.drupal.org/project/gin_toolbar)
 
 Helper module that brings Gin theme to the admin toolbar.
 
 #### Field Group
 
-https://www.drupal.org/project/field_group
+[https://www.drupal.org/project/field_group](https://www.drupal.org/project/field_group)
 
 Allows you to group fields in forms so that they are easier to organize.
 
 #### Field Permissions
 
-https://www.drupal.org/project/field_permissions
+[https://www.drupal.org/project/field_permissions](https://www.drupal.org/project/field_permissions)
 
 Provides field level permissions for different roles.
 
 ## Administration
 
+### Admin Toolbar
+
+The Admin toolbar has quick links to various Administrative features. It has the ability to link to content creation pages, define new content types and structures, change the appearance of the site, add or remove modules, administrate people, generate reports and display site status, change the configuration of the site, and much more. The Humber ITS Websites use the [Gin Admin Theme](#gin-theme) which changes the look of the Admin toolbar into something more modern.
+
+It is vital to familiarize yourself with the toolbar. 
+
 ### One Time Login
 
-**Note:** drush is required in order to follow these steps.
-
-If a user is unable to login for some reason, it is possible to send them a one-time login using drush uli. If successful, it will output a URL that the user can use to login and change their password. 
-
-```shell title="Generate a one-time login link" linenums="1"
-drush uli --name=username  --uri=website-url
-```
+You can restore a user's access to the site by generating a one time login and sending this to them. To do this, see the [One Time Login](./developer-tools.md#one-time-login) section of these docs. 
