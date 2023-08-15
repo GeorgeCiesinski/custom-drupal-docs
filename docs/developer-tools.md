@@ -2,6 +2,14 @@
 
 This document outlines the tools used to develop the sites. With some of the tools, I have also outlined some frequently used processes used during the development of the sites. 
 
+## Command-line
+
+There are many command-line tools which are used throughout the development of the sites. This section covers some of the built-in utilities which don't fall under other categories. 
+
+### Tar
+
+The [Tar](https://www.linux.org/docs/man1/tar.html) command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. 
+
 ## Git
 
 Git is a version control software and is used by the Humber ITS team to back up Drupal site directories. 
@@ -14,7 +22,7 @@ Learn more about [managing the repository using Git](https://www.drupal.org/docs
 
 2. Basic understanding of Git-flow - It is extremely encouraged to maintain git-flow when pushing commits to the site repositories. Learn more about [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
-#### Branch Types
+### Branch Types
 
 **Main** - Permanent Branch
 

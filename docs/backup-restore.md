@@ -34,6 +34,7 @@ Creating a full backup is a multi-step process:
 2. [Clear Cache](#clear-cache)
 3. [Back up Site Files](#backup-site-files)
 4. [Back up Database](#backup-database)
+5. [Turn on Cron Jobs](#turn-on-cron-jobs)
 
 #### Turn off Cron Jobs
 
@@ -94,7 +95,7 @@ Once the CRON jobs have been disabled and the caches are cleared, you can back u
 cd Documents/Backups/its-cab
 ```
 
-2. Compress the Drupal Site directory ensuring you follow the [Backup Naming Conventions](#backup-naming-conventions).
+1. Compress the Drupal Site directory using tar ensuring you follow the [Backup Naming Conventions](#backup-naming-conventions).
 
 ```shell title="Compress the directory using tar"
 tar czf 2023.08.04-its-cab.tgz ../../Repositories/its-cab 
@@ -104,6 +105,10 @@ tar czf 2023.08.04-its-cab.tgz ../../Repositories/its-cab
 
 [Concept: Data Backups](https://www.drupal.org/docs/user_guide/en/prevent-backups.html)
 [Back up your site using the command-line](https://www.drupal.org/docs/7/backing-up-and-migrating-a-site/back-up-your-site-using-the-command-line)
+
+#### Turn on Cron Jobs
+
+Once the database has been backed up, Cron jobs can and should be enabled once again. To do this, simply repeat the steps to [Turn off Cron Jobs](#turn-off-cron-jobs) but instead, change **Run cron every** to **3 hours**.
 
 ## Development Site
 

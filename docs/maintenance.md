@@ -1,7 +1,5 @@
 # Maintenance
 
-
-
 ## Core and Module Update
 
 Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. In many cases, it is beneficial to update these components to ensure that the Humber site is secure and working correctly.
