@@ -65,18 +65,20 @@ The settings file can be found in: `/project-folder/web/sites/default/`
 
 The `settings.php` file is read-only by default which is a security precaution to ensure the site is not able to alter it in any way. In order to make changes, you must locally change the permission of the file to give yourself write access, make the required changes, and once again harden the permissions. This ensures that the file contents are only changed in an authorized way and not by malicious actors. 
 
+**Note:** It is recommended to back up the original file in case something goes wrong with the change. In the event that you experience issues moving `settings.php` in or out of the directory, you can also temporarily change the `/project-folder/web/sites/default/` to `777`. Make sure that once you are finished, you change the permissions back to `555`.
+
 1.	Open the terminal and `cd` into the [settings.php directory](#location-of-the-settingsphp-file). 
 2.	Make the file editable:
 
     ```shell title="Add write permissions to settings.php"
-    chmod a+w settings.php
+    chmod 777 settings.php
     ```
 
 3. Make the required changes using a text editor like vim or nano.
 4. Harden the permissions after editing the file: 
 
     ```shell title="Add write permissions to settings.php"
-    chmod 444 settings.php (Results in permissions -r-r--r--)
+    chmod 444 settings.php (Results in permissions -r--r--r--)
     ```    
 
 #### Frequently Required settings.php Changes
@@ -105,6 +107,12 @@ This setting is used during core updates.
 Todo:
 
 * Complete this section
+
+##### Change the Database Connection
+
+Although rare, sometimes it is necessary to change the database connection. This is done by editing the `Settings.php` file. 
+
+Learn more about [Changing the Database Connection in Drupal's Settings.php](https://ostraining.com/blog/drupal/change-the-database-connection/#:~:text=Change%20the%20Database%20Connection%20in%20Drupal%E2%80%99s%20Settings.php%201,...%206%20Step%20%236.%20Upload%20your%20changes%20)
 
 ## Roles
 

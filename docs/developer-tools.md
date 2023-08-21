@@ -6,6 +6,133 @@ This document outlines the tools used to develop the sites. With some of the too
 
 There are many command-line tools which are used throughout the development of the sites. This section covers some of the built-in utilities which don't fall under other categories. 
 
+### chmod
+
+The `chmod` command is used frequently to change the permissions of directories and files in the Linux and Mac operating systems. 
+
+#### Viewing and Understanding Permissions
+
+To view the permissions of a directory or file, run the command `ls -l`. Alternatively, `ls -lh` also includes human readable file sizes in Mebibytes (as opposed to Megabytes). 
+
+```title="View the permissions of files and directories in another directory"
+ciesinsg@NB-00304-H14872 sites % ls -l default
+total 168
+-rw-r--r--@  1 ciesinsg  staff   9069 12 Jul 09:39 default.services.yml
+-rw-r--r--@  1 ciesinsg  staff  35385 12 Jul 09:39 default.settings.php
+drwxrwxr-x@ 10 ciesinsg  staff    320 24 Jul 15:56 files
+-r--r--r--@  1 ciesinsg  staff  35997 13 Jul 09:09 settings.php
+```
+
+Each line shows the permissions for a file or a directory. The items that start with a `-` are files while the lines that start with `d` are directories. 
+
+The next 9 characters are split into groups of three permissions, representing the `user`, `group`, and `other users` permissions in that order. The permissions are defined in a `read`, `write`, and `execute` order, where a dash means that permission is not granted to that user. 
+
+```title="Permission Anatomy for Above Example"
+#Directory Permission Example
+d         rwx     rwx     r-x
+directory
+          owner | group | others
+          all   | all   | Read and Execute
+
+#File Permission Example
+-         rw-              r--     r--
+file
+          owner          | group | others
+          read and write | read  | read
+```
+
+- `r`: read
+- `w`: write
+- `x`: execute
+- `-`: permission not granted
+
+#### Changing Permissions
+
+The chmod command can be used either with [symbolic](#symbolic-mode) mode or [numeric](#numeric-mode) mode. 
+
+##### Symbolic Mode
+
+Symbolic mode uses symbolic characters to add, remove or set permissions.
+
+```title="Anatomy of symbolic chmod command"
+chmod (users)(action)(permissions) (file or directory)
+```
+
+The users uses `ugoa` symbols where each means:
+
+- `u`: `user` who owns the file or directory
+- `g`: `group` user
+- `o`: `other` users
+- `a`: `all` of the above users
+
+The actions available are: 
+
+- `+`: Add permission
+- `-`: Remove permission
+- `=`: Set permission
+
+The main permissions are:
+
+- `r`: read
+- `w`: write
+- `x`: execute
+
+```title="Add write permission for new_file.txt to all users"
+chmod a+w new_file.txt
+```
+
+You can also chain permissions for different users with a comma:
+
+``` title="Add read and write permissions for the owner, and read permissions for group and others"
+chmod u=rw,go=r new_file.txt
+```
+
+**Note:** There are more permissions available at the [chmod manual](https://www.man7.org/linux/man-pages/man1/chmod.1.html) but these are less frequently used.
+
+##### Numeric Mode
+
+Numeric mode can be used as a chmod shorthand. It consists of three numbers representing the `user`, `group`, and `others` in that order. The numbers consists of one to four possible octal digits, derived by adding up the numerical representation of each permission.
+
+- `read`: 4
+- `write`: 2
+- `execute`: 1
+
+```title="All permissions for all users is represented by 777"
+rwx rwx rwx
+421 421 421
+7   7   7
+```
+
+```title="Another example showing different permissions for each user, resulting in 756"
+rwx r-x rw-
+421 4-1 42-
+7   5   6
+```
+
+Using this information, we can now demonstrate setting permissions using numeric mode. 
+
+```title="Add write permission for new_file.txt to all users"
+chmod 777 new_file.txt
+```
+
+You can also chain permissions for different users with a comma:
+
+``` title="Add read and write permissions for the owner, and read permissions for group and others"
+chmod 644 new_file.txt
+```
+
+The possible numerical combinations are: 
+
+- `7`: All permissions
+- `6`: Read and write
+- `5`: Read and execute
+- `4`: Read
+- `3`: Write and execute
+- `2`: Write
+- `1`: Execute
+
+Learn more about [Changing Permissions](https://www.man7.org/linux/man-pages/man1/chmod.1.html).
+
 ### Tar
 
 The [Tar](https://www.linux.org/docs/man1/tar.html) command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. 
@@ -72,6 +199,21 @@ Some more information can be found in these links. These are meant to get a bett
 [Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
 
 [Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
+
+## MySQL
+
+MySQL is the main database used in the Humber development and production environments. This section outlines some common use cases.
+
+The [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) is the software used to connect to the MySQL database. 
+
+### Create Database
+
+Todo
+
+### Create User
+
+Todo
+
 
 ## Composer
 
