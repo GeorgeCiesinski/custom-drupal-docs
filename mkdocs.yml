@@ -1,10 +1,14 @@
 site_name: Humber ITS Sites
 nav:
   - 'index.md'
-  - 'drupal-sites.md'
   - 'its-website.md'
   - 'cab-website.md'
+  - 'drupal-sites.md'
+  - 'backup-restore.md'
+  - 'maintenance.md'
   - 'development-environment.md'
+  - 'developer-tools.md'
+  - 'glossary.md'
 theme:
   name: material
   logo: assets/humber-logo-white-150x150.svg
@@ -52,6 +56,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.mark
   - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
