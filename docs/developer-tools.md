@@ -204,16 +204,71 @@ Some more information can be found in these links. These are meant to get a bett
 
 MySQL is the main database used in the Humber development and production environments. This section outlines some common use cases.
 
-The [MySQLWorkbench](https://dev.mysql.com/downloads/workbench/) is the software used to connect to the MySQL database. 
+### Installation
 
-### Create Database
+You need to install two tools to use MySQL locally. 
 
-Todo
+1. MySQL Workbench
 
-### Create User
+The [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) is the software used to connect to the MySQL database. 
 
-Todo
+2. MySQL Community Server `8.0.xx`
 
+The [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) is the actual MySQL server you need to run locally. The MySQL Workbench can connect to this server. Currently, MySQL Workbench can only connect to MySQL Community Server `5.7.xx` or `8.0.xx`, so make sure you download an 8.0.xx version. 
+
+### Server Setup
+
+The following instructions are for setup on Mac. 
+
+#### Add Root Connection
+
+The root connection will be used to connect to the local server and write queries. This can be later used to create new users and databases.
+
+1. Install the downloaded MySQL Community Server `8.0.xx`. During the installation it will ask you to set a password. Use the default password option and not legacy. Type in your password carefully as the software will not ask you to verify the password. 
+2. Open System Settings and scroll to the bottom in the left panel. Select MySQL. In the right side of the window, click Initialize database and enter your password. Once this is complete, click "Start MySQL Server".
+![MySQL Settings](assets/developer-tools/mysql-settings.png)
+3. Open MySQL Workbench and click the + button.
+![Add Connection](assets/developer-tools/workbench-add.png)
+4. Fill in the connection information as per below:
+![Connection Info](assets/developer-tools/connection-info.png)
+1. Click "Test Connection". This should prompt a popup asking for your password. Fill it in, making sure to checkmark "Save Password" and click OK. 
+![Connection Password](assets/developer-tools/connection-password.png)
+1. If you see the below window, the connection is successful. In the Setup New Connection screen, you can now click OK and the connection will be saved. 
+![Success](assets/developer-tools/success.png)
+
+### Create New Database
+
+Each local website requires a unique user and schema. In MySQL the schema is synomymous with database. The website is configured to use the created user to access the database. 
+
+#### Create User
+
+1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+2. Click Users and Privileges in the left side menu.
+![users](assets/developer-tools/users.png)
+3. Click Create User, and then fill out the username and password.
+![create-user](assets/developer-tools/create-user.png)
+4. Click Apply to save the new user.
+
+**Note:** Make sure you set the host to localhost in order for the later steps to work.
+
+#### Create Schema
+
+1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+2. Click the Create New Schema button on the top toolbar.
+![Create New Schema](assets/developer-tools/create-new-schema.png)
+3. Name the new database, then select the Character Set `utf8mb4` and the Collation `utf8mb4_unicode_ci`. Click Apply, then Apply once again. 
+![Configure Schema](assets/developer-tools/configure-schema.png)
+
+#### Grant User Access to Schema
+
+1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+2. In the Query tab, type the following SQL command where `itslocal` is replaced by the database, and `itsuser`@localhost is replaced by the username.
+
+```sql
+GRANT ALL PRIVILEGES ON itslocal TO itsuser@localhost;
+```
+
+3. Click CMD+Enter on Mac or Ctrl+Enter on Windows to run the query.
 
 ## Composer
 

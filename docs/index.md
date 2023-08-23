@@ -12,6 +12,8 @@ The recommended method of using the documentation is to check the specific docum
 
 Alternatively, you can use the search feature to search across all of the pages.
 
+In addition to general and specific site documentation, there are additional links in the navbar for various other useful sections. There, you can find information on backing up and restoring the database, performing maintenance, connecting to the developer environment, using the various developer tools, and a glossary. 
+
 ### Specific Documentation
 
 These docs contain unique information for each site which is not relevant to other sites. Some examples of this are unique roles, modules, or structures that are used by one site but not the others. This documentation is most useful to regular users such as content editors, as it contains instructions how to create the specific content used on each site.
