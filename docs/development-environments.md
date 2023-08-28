@@ -1,10 +1,22 @@
-# Development Environment
+# Development Environments
 
-The development environment is a server space used to upload and test the development version of the sites. It functions similarly to the production server allowing developers to push code changes, test updates, and more.
+The Humber ITS Drupal sites are developed across multiple development environments to ensure it is easy and safe to update them in the future. 
+
+Development is done in a local environment and a staging environment. The finished websites live in the production environment. 
+
+## Local Environment
+
+The local environment is comprised of several parts. 
+
+- **The Standard Drupal Directory:** The folder containing the composer configuration and site root. This contains all of the configuration data for the site.
+- **Local MySQL database:** The root user and database, as well as the site specific users and databases. 
+- **Apache Server:** The local server which hosts multiple site instances. 
+
+## Staging Environment
+
+The staging environment is a server space used to upload and test the development version of the sites. It functions similarly to the production server allowing developers to push code changes, test updates, and more.
 
 Using the development environment provides a safe method of testing changes before pushing them to production.
-
-## Server
 
 The server used as the development environment is the Marketing Staging Environment (OWL).
 

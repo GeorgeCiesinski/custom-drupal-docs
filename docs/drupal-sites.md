@@ -32,23 +32,34 @@ The Humber ITS Drupal Stack uses:
 * PostgreSQL
 * PHP
 
+## Version Control
+
+The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
+
+**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, see [Backup and Restore](backup-restore.md).
+
+### Gitignore
+
+A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
+
+Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
+
 ## Development
 
 This section is primarily for developers. It covers backing up and restoring both the Drupal Sites, and their corresponding databases. In addition to this, it also covers carrying out maintenance tasks, and important development concepts such as the `settings.php` file and other configuration files. 
 
 For more information about developer tools, see the [Developer Tools](./developer-tools.md) documentation. 
 
-### Version Control Using Git
+### Creating a New Drupal Site
 
-The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
+A new Drupal site is created locally before being pushed to the staging server. Once the site is ready to go live, it can be pushed to the production server. This section focuses on the local setup.
 
-**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, see [Backup and Restore](backup-restore.md).
+Learn more about [Development Environments](development-environments.md).
 
-#### Gitignore
+**Server Requirements**
 
-A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
-
-Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
+- [MySQL User and Database](developer-tools.md#mysql)
+- [Apache Server](developer-tools.md#apache)
 
 ### Settings.php
 
@@ -244,6 +255,8 @@ Gin theme is an administrator theme with a number of useful submodules.
 Beautiful Admin theme.
 
 ##### Gin Login
+
+Todo: Check if this is still needed after the Microsoft 365 integration.
 
 [https://www.drupal.org/project/gin_login](https://www.drupal.org/project/gin_login)
 

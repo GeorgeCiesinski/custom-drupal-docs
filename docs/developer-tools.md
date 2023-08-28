@@ -240,6 +240,8 @@ The root connection will be used to connect to the local server and write querie
 
 Each local website requires a unique user and schema. In MySQL the schema is synomymous with database. The website is configured to use the created user to access the database. 
 
+Learn more about [Creating a New Database](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/INSTALL.mysql.txt).
+
 #### Create User
 
 1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
@@ -262,19 +264,204 @@ Each local website requires a unique user and schema. In MySQL the schema is syn
 #### Grant User Access to Schema
 
 1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
-2. In the Query tab, type the following SQL command where `itslocal` is replaced by the database, and `itsuser`@localhost is replaced by the username.
+2. In the Query tab, type the following SQL command where `its` is replaced by the database, and `itsuser`@localhost is replaced by the username.
 
-```sql
-GRANT ALL PRIVILEGES ON itslocal TO itsuser@localhost;
+```
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES
+ON its.*
+TO 'itsuser'@'localhost';
 ```
 
 3. Click CMD+Enter on Mac or Ctrl+Enter on Windows to run the query.
+
+## Apache
+
+Apache server outputs the site locally to an IP address or domain. 
+
+### Installing Apache
+
+Install Apache using homebrew: `brew install httpd`
+
+Learn more about [Installing Apache using Homebrew](https://tecadmin.net/install-apache-macos-homebrew/).
+
+### Configuring Apache
+
+The Apache configuration can be found in the directory `/opt/homebrew/etc/httpd/httpd.conf`.
+
+The documentRoot is `/opt/homebrew/var/www`.
+
+The default ports have been set in `/opt/homebrew/etc/httpd/httpd.conf` to `8080` and in `/opt/homebrew/etc/httpd/extra/httpd-ssl.conf` to `8443` so that httpd can run without sudo.
+
+### Using Apache
+
+The server can be started and stopped using the command line. 
+
+Start the Server: `brew services start httpd`
+
+Stop the Server: `brew services stop httpd`
+
+### Virtual Hosts
+
+In order to use Apache to serve multiple sites, Virtual Hosts need to be enabled and configured.
+
+#### Enable Virtual Hosts
+
+1. Open `/opt/homebrew/etc/httpd/httpd.conf` using Vim
+2. Change the Listen port to 80: `Listen 80`
+3. Enable Virtual Hosts by uncommenting the line: `#Include /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf`
+4. Load the `mod_rewrite` module by uncommenting the line: `#LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so`
+
+**Note:** any web frameworks use it to enable “pretty URLs”, letting site visitors use URLs like `/posts/2021/some-post-title/` while translating them into URLs like `/index.php?p=697` for the back-end. 
+
+5. Configure a server name to silence the warning that hostname cannot be determined: `ServerName www.example.com:8080` or `ServerName localhost:80`
+6. Enable PHP by loading the PHP module: `LoadModule php_module /opt/homebrew/opt/php/lib/httpd/modules/libphp.so`
+7. Add the below below the other include directives: 
+
+```
+# PHP settings
+Include /opt/homebrew/etc/httpd/extra/httpd-php.conf
+```
+
+8. Open `/opt/homebrew/etc/httpd/extra/httpd-php.conf` with Vim and add the below PHP configuration: 
+
+```
+<IfModule php_module>
+  <FilesMatch \.php$>
+    SetHandler application/x-httpd-php
+  </FilesMatch>
+
+  <IfModule dir_module>
+    DirectoryIndex index.html index.php
+  </IfModule>
+</IfModule>
+```
+
+Learn more about [Setting Up Virtual Hosts on macOS](https://www.git-tower.com/blog/apache-on-macos/).
+
+#### Configuring Virtual Hosts
+
+Now that Virtual Hosts have been enabled, you can create new configurations in the `/opt/homebrew/etc/httpd/extra/httpd-vhosts.conf` file. 
+
+1. Open `/opt/homebrew/etc/httpd/extra/httpd-vhosts.conf` using Vim
+2. Paste the below configuration for each website directory you want to host locally. Ensure you change the details as per the below explanation:
+
+```
+<VirtualHost *:80>
+    ServerName its-site.test
+    ServerAlias *.its-site.test
+    DocumentRoot "/Users/ciesinsg/Documents/Repositories/its-site/web"
+
+    <directory "/Users/ciesinsg/Documents/Repositories/its-site/web">
+        Require all granted
+        AllowOverride All
+    </directory>
+</VirtualHost>
+```
+
+**ServerName:** This is the root URL
+**ServerAlias:** This is similar to the root URL but with a wildcard for the prefix
+**DocumentRoot:** This is the web directory of the Drupal site
+**Directory:** This is the same web directory as Document root
+
+**Note:** The `.test` domain can be used to differentiate the sites from real existing domains and avoid conflicts when visiting the local sites. 
+
+The other settings can be kept the same.
+
+#### Defining a New Host
+
+After [Configuring Virtual Hosts](#configuring-virtual-hosts), the final step required to be able to access the new site directory is to add the definition to the `/etc/hosts` file. 
+
+1. Due to the `/etc/hosts` file permissions, open the file using Vim as a superuser: `sudo vim /etc/hosts`.
+2. Add a new definition to the file: 
+
+```
+127.0.0.1       its.test
+```
 
 ## Composer
 
 In order to make maintenance easier, all of the Humber ITS Drupal Sites were built using [Composer](https://getcomposer.org/). 
 
-Learn more about [Using Composer to Install Drupal and Manage Dependencies](https://www.drupal.org/docs/develop/using-composer/manage-dependencies).
+#### Installing PHP
+
+Homebrew is required in order to install PHP. Please visit the TechZone for help installing Homebrew. 
+
+1. Search for and open “Terminal” in your app drawer. 
+2. Run the command: `brew install php`
+3. Test your PHP installation by running: `which php` -> which should output -> `/opt/homebrew/bin/php`
+
+**Note:** These instructions are not guaranteed to work on Intel Macbooks and were created for Apple Silicon. 
+
+#### Installing Composer
+
+##### Requirements
+
+1. Homebrew
+2. PHP
+3. Apple Mac with Apple Silicon chip (M1 or M2 chip)
+
+**Notes:** 
+
+1. It is recommended to install Composer in the `/usr/local/bin` directory as this directory is already included in the `$PATH`. This means that you can invoke composer in the Terminal without manually adding the composer install directory to `$PATH`. The steps to do this are outlined in the next section.
+2. The steps after and including step 4 are taken from [these instructions](https://getcomposer.org/doc/). It is important to run the below steps 1-3 for installation on Humber Apple Silicon (M1 & M2 chip) Macbooks because the /usr/local/bin folder is controlled by PAM by default, and simply following the instructions in the link will result in the Terminal blocking the command. 
+
+##### Instructions
+
+3. Search for and open **Terminal** in your app drawer. 
+4. Change directories to `/usr/local/bin` by copying and pasting the following command into the Terminal: `cd /usr/local/bin`
+5. Take ownership of the `/usr/local/bin` folder by copying and pasting the below command into the Terminal: 
+
+```
+sudo chown -R $(whoami) /usr/local/bin
+```
+
+If prompted for a password, enter your Microsoft 365 password.
+
+4. Download install files running the command: 
+
+```
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" 
+```
+
+5. Verify the download file integrity: 
+
+```
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+```
+
+*Note:* If the Terminal outputs Installer verified, continue from step 6. If it instead outputs Installer corrupt, read the INSTALLER CORRUPT ERROR section below these instructions before continuing.
+
+6. Install composer by running the command: `php composer-setup.php`
+
+7. Delete the installer by running the command: `php -r "unlink('composer-setup.php');"`
+
+
+8. Rename composer by running the command: `sudo mv composer.phar composer`
+
+**Note:** This step is important for the Terminal to globally recognize commands starting with composer. Otherwise you will need to use `composer.phar` instead of `composer` which may result in unexpected bugs. 
+
+9. Test the installation by running the command: `which composer ` -> which should output -> `/usr/local/bin/composer`
+
+##### Installer Corrupt Error
+
+It is very likely that you will get the error Installer corrupt when attempting Step 5 of this installation. The reason for this is that step 5 uses a hash to verify the integrity of the download, but the hash will change with each new version of composer. 
+
+If this happens, start once again from Step 4. 
+
+When you get to Step 5, visit this website https://getcomposer.org/download/ and copy & paste the line starting with `php -r "if (hash_file…` into the Terminal in place of the command listed in Step 5. This will ensure that the current and latest hash is used to verify the integrity of the file. 
+
+Continue the remaining instructions until installation is complete.  
+
+### Creating a New Website
+
+Use the drupal/recommended-project-template to create a new project.
+
+1. `cd` into your repository folder and create a new folder for the project with `mkdir project-name` where the project-directory is the name of the project.
+2. Create a new project with `composer create-project drupal/recommended-project project-name`.
+3. Add a [new Virtual Hosts configuration](#configuring-virtual-hosts) pointing at this new project directory.
+4. Visit the URL you configured in Step 3 and follow the installation prompts.
+
+Learn more about [Using Composer to Install Drupal](https://git.drupalcode.org/project/drupal/-/blob/11.x/core/INSTALL.txt).
 
 ## Drush
 
