@@ -46,11 +46,11 @@ These steps are for first time setup after cloning this repository.
     <li>Create a virtual environment using the command:</li>
     <code>python3 -m venv venv</code>
     <li>Activate the virtual environment using the command:</li>
-    <code>venv/bin/activate</code>
+    <code>source venv/bin/activate</code>
     <p>If this is done correctly, you should see <code>(venv)</code> in the Terminal.</p>
     <li>Install the requirements using the command:</li>
     <code>pip3 install -r requirements.txt</code>
-    <p>The project should now be installed and ready to use.</p>
+    <p>In the terminal where you activated venv, run the command <code>mkdocs serve</code>. This will generate the site and show you the link where you can access these docs.</p>
 </ol>
 
 ### Usage
