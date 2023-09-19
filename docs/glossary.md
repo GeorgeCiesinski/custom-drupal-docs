@@ -11,3 +11,7 @@ CRON jobs are scheduled tasks that run periodically at fixed times. They are use
 ## Root folder
 
 The Root folder is the folder that contains the <code>composer</code> files, as well as the <code>vendor</code> and <code>web</code> directories. 
+
+## Stable 9
+
+A plain/normalized Drupal theme that is used to create subthemes. 

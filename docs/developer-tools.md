@@ -133,6 +133,26 @@ The possible numerical combinations are:
 
 Learn more about [Changing Permissions](https://www.man7.org/linux/man-pages/man1/chmod.1.html).
 
+### Vim
+
+Vim is a powerful terminal based text/script editor that is built into most unix based computers. You can open and edit files by using the command: 
+
+```
+vim filename
+```
+
+Vim is notorious for being pretty complex, which is an unfortunate side effect of how powerful it is. New users should look up [Vim Basics](https://www.redhat.com/sysadmin/beginners-guide-vim) or use an alternate text editor like nano if they prefer ease of use.
+
+#### Modes
+
+- **Normal Mode:** This mode allows you to give commands to the editor and carry out a number of functions.
+- **Insert Mode:** This mode allows you to start inserting text into the file you are editing.
+- **GUI Mode:**    This mode is only available in certain environments and gives you a graphical point and click interface to control the editor. 
+
+#### Notable Commands
+
+TBD
+
 ### Tar
 
 The [Tar](https://www.linux.org/docs/man1/tar.html) command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. 
@@ -189,6 +209,46 @@ git checkout -b hotfix/descriptive-title
 ```shell title="Create a new release branch"
 git checkout -b release/feature-name
 ```
+
+### Common Processes
+
+#### Git Subtree
+
+A git subtree is a way to include one Git repository inside of another. This is useful when a module or subdirectory of one project is used in other projects. In this case, we would create a subtree and push it to it's own repository. This can later be added in as a separate remote and pulled into other projects. The other major benefit is that when changes are made from different projects, those changes can be pushed to the subtree repository, and pulled into other projects, which makes maintenance easy. 
+
+While git remembers your remote, it is unable to tell what subtrees you are using or track their changes independently of your project repo. For this reason, it is important to create a new subtree, pull changes, and push changes to it manually. 
+
+##### Creating a New Subtree
+
+**Existing project:** This is the main project which the subtrees are located within.
+**Subtree directory:** This is the folder containing the files you want to turn into a new subtree.
+**Note:** Ignore this step if you are using an existing subtree.
+
+
+1. Create a new repository on Github and copy the SSH link.
+1. In the existing project, add the remote using an alias: `git remote add alias-name ssh-link`
+1. Split the subtree directory into a separate branch named split: `git subtree split --prefix subtree-directory -b split --rejoin --squash`. The subtree directory is the path relative to your project root. It is good practice to rejoin and squash the commits so that the subtree doesn't contain your existing project history.
+1. Push the subtree to the remove alias created earlier: `git push alias-name split:main`. Here, we are telling git to push the new "split" branch created in the last step to the remote repository with the alias "alias-name", and to push the split branch to this new repo's main branch. 
+
+Upon completing these steps, the newly created git repository will contain the subtree files. 
+
+Learn more about [Subtrees](https://youtu.be/JX5GPZjEWTo).
+
+##### Pulling Changes from Subtree
+
+If the subtree you are using has had changes pushed to it, you can pull those changes into your own project. 
+
+**Note:** To use the alias name, you must have added the repository link as an alias in [this section](#creating-a-new-subtree). Otherwise, use the git repository link in its place instead. 
+
+1. cd into the project root as git sees it.
+1. Pull the changes using `git subtree pull --prefix=subtree-directory --squash alias-name branch-name`
+
+##### Pushing Changes to Subtree
+
+If you have changes to push to the subtree, you can use the below process:
+
+1. cd into the project root as git sees it.
+2. Push the changes using `git subtree push --prefix=subtree-directory alias-name branch-name`
 
 ### Additional Info
 
@@ -291,6 +351,24 @@ The Apache configuration can be found in the directory `/opt/homebrew/etc/httpd/
 The documentRoot is `/opt/homebrew/var/www`.
 
 The default ports have been set in `/opt/homebrew/etc/httpd/httpd.conf` to `8080` and in `/opt/homebrew/etc/httpd/extra/httpd-ssl.conf` to `8443` so that httpd can run without sudo.
+
+#### Testing Apache Configuration
+
+With manually edited configuration files like this, it is easy to make mistakes. You can run the below command to check the configuration syntax: 
+
+```
+apachectl configtest
+```
+
+If all is well, it should output: `Syntax OK`
+
+If there is some kind of a warning or error, it will instead output that error. An example of such an error is:
+
+```
+AH00557: httpd: apr_sockaddr_info_get() failed for (computer name)
+```
+
+There can be many different kinds of errors, so the best course of action is to copy the error and google it. To better be able to find the error, make sure you don't include some parts of the message that are unique to your setup, such as your computer name. 
 
 ### Using Apache
 

@@ -199,7 +199,33 @@ Most actions we perform on modules will be maintenance as new versions are relea
 
 ### Installing Modules
 
-Learn about [Installing Modules](https://www.drupal.org/docs/extending-drupal/installing-modules).
+Modules can be found at the [Drupal Modules page](https://www.drupal.org/project/project_module). 
+
+1. Use the search bar to find a module, and click the link to view more details about the module. 
+
+1. Once you find a module you want to install, scroll down to the **Releases** section. Find a release that is compatible with the same Drupal version the site is using. 
+
+1. Click the **copy** button to the right of the **Install:** code block. This code block should contain a composer installation script that looks similar to `composer require 'drupal/project_name:version#'`
+
+1. cd to the project directory using Terminal, and paste the composer command. This will download the project and dependencies. 
+
+1. In your site, click the **Extend** link in the Admin Toolbar, and scroll down until you find the module you downloaded with composer in the previous step. The modules also list all of their required dependencies. 
+
+1. Make sure all the dependencies are checkmarked and click Install.
+
+Learn more about [Installing Modules](https://www.drupal.org/docs/extending-drupal/installing-modules).
+
+### Uninstalling Modules
+
+1. In your site, click the **Extend** link in the Admin Toolbar, then click the **Uninstall** tab and scroll down until you find the module you want to uninstall. 
+
+1. Checkmark the dependency, and click **Uninstall** at the bottom of this page. 
+
+1. Open the `composer.json` file using a text editor of your choice, and delete the entry from the **Require** object. 
+
+1. cd to the project directory using Terminal, and run the command `composer update`. This will uninstall the module and unused dependencies. 
+
+Learn more about [Uninstalling Modules](https://www.bing.com/search?pglt=41&q=drupal+uninstall+module&cvid=6644fd8583ff471ba5ab01ad0e8b6f9b&aqs=edge.0.0l6j69i64l2j69i11004.2222j0j1&FORM=ANAB01&PC=U531)
 
 ### Using Composer to Manage Dependencies
 
@@ -241,6 +267,15 @@ This module redirects anonymous users to login if the content they are trying to
 https://www.drupal.org/project/pathauto
 
 This module is used to automatically generate unique URL’s for new content. Default Drupal behavior results in URL snippets like `node/1`, but PathAuto can be used to create templates so that URLs might instead look like `photo/2` or `change-request/143`.
+
+##### Configuring Pathauto
+
+1. After installing **Pathauto, go to Admin -> Configuration -> Search & Metadata -> URL Aliases**
+1. Click the Patterns tab
+1. Click **+ Add Pathauto pattern**
+1. Select the Pattern type "Content" and add the configuration `[node:content-type][node:nid]`
+
+Different content may require a different configuration. For more information, see the link below. 
 
 Learn more about using [PathAuto](https://ostraining.com/blog/drupal/pathauto-2/).
 
