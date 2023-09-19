@@ -218,6 +218,9 @@ A git subtree is a way to include one Git repository inside of another. This is 
 
 While git remembers your remote, it is unable to tell what subtrees you are using or track their changes independently of your project repo. For this reason, it is important to create a new subtree, pull changes, and push changes to it manually. 
 
+Learn more about [Subtrees](https://youtu.be/JX5GPZjEWTo).
+Learn even more about [Subtrees](https://youtu.be/sC1sfoCo5qY).
+
 ##### Creating a New Subtree
 
 **Existing project:** This is the main project which the subtrees are located within.
@@ -231,8 +234,6 @@ While git remembers your remote, it is unable to tell what subtrees you are usin
 1. Push the subtree to the remove alias created earlier: `git push alias-name split:main`. Here, we are telling git to push the new "split" branch created in the last step to the remote repository with the alias "alias-name", and to push the split branch to this new repo's main branch. 
 
 Upon completing these steps, the newly created git repository will contain the subtree files. 
-
-Learn more about [Subtrees](https://youtu.be/JX5GPZjEWTo).
 
 ##### Pulling Changes from Subtree
 
