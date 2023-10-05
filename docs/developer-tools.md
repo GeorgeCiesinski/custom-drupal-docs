@@ -305,7 +305,7 @@ Learn more about [Creating a New Database](https://git.drupalcode.org/project/dr
 
 #### Create User
 
-1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
 2. Click Users and Privileges in the left side menu.
 ![users](assets/developer-tools/users.png)
 3. Click Create User, and then fill out the username and password.
@@ -316,7 +316,7 @@ Learn more about [Creating a New Database](https://git.drupalcode.org/project/dr
 
 #### Create Schema
 
-1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
 2. Click the Create New Schema button on the top toolbar.
 ![Create New Schema](assets/developer-tools/create-new-schema.png)
 3. Name the new database, then select the Character Set `utf8mb4` and the Collation `utf8mb4_unicode_ci`. Click Apply, then Apply once again. 
@@ -324,7 +324,7 @@ Learn more about [Creating a New Database](https://git.drupalcode.org/project/dr
 
 #### Grant User Access to Schema
 
-1. Connect to the root database setup in [Add Root Connection](#add-root-connection). 
+1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
 2. In the Query tab, type the following SQL command where `its` is replaced by the database, and `itsuser`@localhost is replaced by the username.
 
 ```

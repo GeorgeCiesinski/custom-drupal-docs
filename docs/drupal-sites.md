@@ -287,7 +287,7 @@ Gin theme is an administrator theme with a number of useful submodules.
 
 [https://www.drupal.org/project/gin](https://www.drupal.org/project/gin)
 
-Beautiful Admin theme.
+Beautiful Admin theme. In appearance settings, set the admin theme to Gin for this to take effect.
 
 ##### Gin Login
 
