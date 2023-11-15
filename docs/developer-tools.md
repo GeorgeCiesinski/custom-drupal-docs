@@ -157,10 +157,6 @@ Vim is notorious for being pretty complex, which is an unfortunate side effect o
 - **Insert Mode:** This mode allows you to start inserting text into the file you are editing.
 - **GUI Mode:**    This mode is only available in certain environments and gives you a graphical point and click interface to control the editor. 
 
-#### Notable Commands
-
-TBD
-
 ### Gzip & Tar
 
 The [Gzip](https://www.gnu.org/software/gzip/) command is a file compression and decompression utility that is used to reduce the size of files while keeping the original file mode, ownership, and timestamp. Gzip is used to compress individual files. 

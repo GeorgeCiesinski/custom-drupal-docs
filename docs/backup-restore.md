@@ -2,13 +2,13 @@
 
 ## Site Maintenance
 
-Presents message that the site is under maintenance to users who do not have the right permissions. Authorized users can maintain the site and update content during this time. 
+The Site Maintenance message informs regular users the site is under maintenance. Authorized users can maintain the site and update content during this time. 
 
 [Enabling and Disabling Maintenance Mode](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
 
 ## Backups
 
-It is important to back up the website frequently to prevent data loss.
+It is important to back up the website frequently to prevent data loss. A backup consists of the site's source code, and a MySQL dump of the database. 
 
 It is an especially good idea to carry out a full backup when:
 
@@ -18,29 +18,50 @@ It is an especially good idea to carry out a full backup when:
 
 Backups should also be tested periodically to ensure it is possible to restore the site from the backups.
 
-### Backup Naming Conventions
+### Backup Conventions
 
-As there will be many backups, it is important to follow a naming convention that includes the date of the backup. For the purpose of consistency, I will be using the below format to name the backups:
+In order to stay consistent, backups should be placed into separate folders for each site. 
 
-<code>yyyy.mm.dd-site-name</code>
+Each separate backup should be placed in its own folder with the name <code>YYYY-MM-DD version</code>.
 
-This convention will be used in the later steps during the creation of the backups where a clearer example is shown.
+This folder should contain the MySQL dump, and the source code for the site.
+
+```title="Folder Structure"
+/cab backups                    # Contains all cab backups
+    /2023-11-14 v0.0.1          # Contains specific backup files
+        2023-11-14-cab.sql      # MySQL dump
+        cab.tar.gz              # Site root folder (source code)
+```
+
+```title="Version Name"
+0.0.x   # PATCH contains bug fixes, or small changes
+0.x.0   # MINOR change contains new features or branch merges
+x.0.0   # Major version signifies public release state
+
+/*
+Note on release state: 
+
+The major version 0 is for unreleased development versions of the site. Once the site is released, the version changes to 1. If enough minor changes and patches occur, the major version can change with the next push to production. 
+*/
+```
 
 ### Creating a Full Backup
 
 Creating a full backup is a multi-step process:
 
 1. [Turn off Cron Jobs](#turn-off-cron-jobs)
-2. [Clear Cache](#clear-cache)
-3. [Back up Site Files](#backup-site-files)
-4. [Back up Database](#backup-database)
-5. [Turn on Cron Jobs](#turn-on-cron-jobs)
+1. [Clear Cache](#clear-cache)
+1. [Loosen Permissions](#loosen-permissions)
+1. [Back up Site Files](#backup-site-files)
+1. [Back up Database](#backup-database)
+1. [Turn on Cron Jobs](#turn-on-cron-jobs)
+1. [Harden Permissions](#harden-permissions)
+
+**Note:**  
 
 #### Turn off Cron Jobs
 
 It is highly recommended to turn off CRON jobs before making a Full Backup as the CRON jobs can be resource intensive. 
-
-##### Steps to Turn off Cron Jobs
 
 1. Select <code>Configuration</code> > <code>System</code> > <code>CRON</code> within the Admin toolbar.
 
@@ -54,7 +75,7 @@ It is highly recommended to turn off CRON jobs before making a Full Backup as th
 
 It is a good practice to clear or rebuild caches when moving a site from one host to another. This can also be useful when installing new modules or themes as it is often a first step in troubleshooting. It is recommended to clear the cache frequently throughout development. 
 
-**Note:** Sites may slow down a bit after being cleare as they slowly fill back up. This is a normal side-effect of clearing the cache. 
+**Note:** Sites may slow down a bit after being cleared as the cache slowly fills back up. This is a normal side-effect of clearing the cache. 
 
 ##### Clearing Cache using Drush
 
@@ -72,39 +93,34 @@ The quickest and easiest way to clear the cache is to use Drush. The steps to do
 
 #### Backup Site Files
 
-Once the CRON jobs have been disabled and the caches are cleared, you can back up the entire [root folder](glossary.md#root-folder). 
+The source code can be backed up using the CLI:
 
-**Note:** The following instructions are based on a folder structure where Repositories and Backups are sibling folders in the Documents parent directory. Depending on your directory structure, the paths may need to be modified in the below commands.
+1. You can [use tar](developer-tools.md#gzip--tar) to back up the entire [root folder](glossary.md#root-folder). 
 
-```
-.
-└── Documents/
-    ├── Repositories/
-    │   ├── its-cab
-    │   └── its-site
-    └── Backups/
-        ├── its-cab
-        └── its-site
+```title="Zip project directory using tar"
+tar -czvf YYYY-MM-DD-project.tar.gz cab
+
+# Replace the YYYY-MM-DD with the date, and project with the project name
 ```
 
-##### Steps to backup root files 
-
-1. Open Terminal and navigate to your Backups folder.
-
-```shell title="Navigate to your backup directory"
-cd Documents/Backups/its-cab
-```
-
-1. Compress the Drupal Site directory using tar ensuring you follow the [Backup Naming Conventions](#backup-naming-conventions).
-
-```shell title="Compress the directory using tar"
-tar czf 2023.08.04-its-cab.tgz ../../Repositories/its-cab 
-```
+2. Move the resulting file into the backup folder described in [Backup Conventions](#backup-conventions).
 
 #### Backup Database
 
-[Concept: Data Backups](https://www.drupal.org/docs/user_guide/en/prevent-backups.html)
-[Back up your site using the command-line](https://www.drupal.org/docs/7/backing-up-and-migrating-a-site/back-up-your-site-using-the-command-line)
+The database can be backed up using MySQLWorkbench. To back up the database:
+
+1. Open the MySQLWorkbench app and connect to the database.
+2. In the menu, click **Server**, then click **Data Export**.
+
+![Data Export](assets/backup-restore/data-export.png){ width="400" }
+
+3. Under "Tables to Export" checkmark the database name. Under "Export Options" select **Export to Self-Contained File**
+
+![Start Export](assets/backup-restore/start-export.png){ width="600" }
+
+4. In the space beside **Export to Self-Contained File**, feel free to change the directory, and rename the file as per [Backup Conventions](#backup-conventions). Then click Start Export.
+
+5. Move the resulting file into the backup folder described in [Backup Conventions](#backup-conventions).
 
 #### Turn on Cron Jobs
 
