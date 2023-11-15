@@ -1,14 +1,14 @@
 site_name: Humber ITS Sites
 nav:
   - 'index.md'
+  - 'drupal-sites.md'
   - 'its-website.md'
   - 'cab-website.md'
-  - 'drupal-sites.md'
-  - 'backup-restore.md'
-  - 'maintenance.md'
   - 'development-environments.md'
-  - 'theming.md'
+  - 'maintenance.md'
+  - 'backup-restore.md'
   - 'developer-tools.md'
+  - 'theming.md'
   - 'glossary.md'
 theme:
   name: material

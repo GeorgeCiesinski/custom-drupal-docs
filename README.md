@@ -4,13 +4,13 @@ This repository houses the documentation for multiple Humber ITS Websites:
 
 * its-site
 * its-cab
-* its-gallery
+* Humber Drupal Theme
 
 These docs are built using [MkDocs](https://www.mkdocs.org/) and the [Material Theme](https://squidfunk.github.io/mkdocs-material/). MkDocs is a static site generator that converts markdown files into beautiful documentation and makes the process of creating documentation very quick and easy.  
 
-## Updating the Docs
+## Using the Docs
 
-In order to make changes, it is recommended to clone and setup the project locally. 
+These docs need to be cloned and served locally before use.
 
 ### Cloning Repository
 
@@ -50,21 +50,10 @@ These steps are for first time setup after cloning this repository.
     <p>If this is done correctly, you should see <code>(venv)</code> in the Terminal.</p>
     <li>Install the requirements using the command:</li>
     <code>pip3 install -r requirements.txt</code>
-    <p>In the terminal where you activated venv, run the command <code>mkdocs serve</code>. This will generate the site and show you the link where you can access these docs.</p>
+    <li>In the terminal where you activated venv, run the command:</li> 
+    <code>mkdocs serve</code>
+    <p>This will generate the site and show you the link where you can access these docs.</p>
 </ol>
-
-### Usage
-
-#### Requirements
-
-* Project Cloned and Setup
-* Virtual Environment must be active
-
-#### Serve
-
-MkDocs can generate a local development version of the documentation site. Use the command `mkdocs serve` to create a local development version which updates as you make changes. This will output a local URL which you can open in browser to see the docs:
-
-`Serving on http://127.0.0.1:8000/`
 
 #### Build
 
@@ -72,6 +61,4 @@ MkDocs can also build the production version of the documentation site. Use the 
 
 ### Pushing Updates
 
-It is recommended to use Git and Git-flow when pushing changes to the documentation. All development should take place on the `develop` branch. When building a new section of the documentation, please checkout the Develop branch before creating a new branch called `feature/descriptive-name`. The completed changes can be merged back into `develop` where they can be either tested or combined with other changes. If the `develop` branch is tested and working properly, the changes can finally be merged into `main`.
-
-This will ensure that changes are compartmentalized and can be easily reversed in case of any issues. 
+Updates can be safely pushed to the develop branch. This should be updated frequently and kept up-to-date with source material.

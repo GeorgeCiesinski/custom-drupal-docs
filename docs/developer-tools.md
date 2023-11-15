@@ -133,6 +133,14 @@ The possible numerical combinations are:
 
 Learn more about [Changing Permissions](https://www.man7.org/linux/man-pages/man1/chmod.1.html).
 
+##### Change all permissions recursively
+
+In some cases, all of the contents of the directory must be changed, including subdirectories. The staging and production server, for example, require that the root directory and subdirectories have the permissions 775. 
+
+```title="Change all permissions recursively"
+chmod 775 -R *
+```
+
 ### Vim
 
 Vim is a powerful terminal based text/script editor that is built into most unix based computers. You can open and edit files by using the command: 
@@ -153,9 +161,26 @@ Vim is notorious for being pretty complex, which is an unfortunate side effect o
 
 TBD
 
-### Tar
+### Gzip & Tar
 
-The [Tar](https://www.linux.org/docs/man1/tar.html) command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. 
+The [Gzip](https://www.gnu.org/software/gzip/) command is a file compression and decompression utility that is used to reduce the size of files while keeping the original file mode, ownership, and timestamp. Gzip is used to compress individual files. 
+
+The [Tar](https://www.linux.org/docs/man1/tar.html) command creates tarball archives of files and directories while preserving file permissions. This is one of the tools used to create backups of the site directories. Tar is generally used to archive whole directories and can filter through gzip. 
+
+```title="Anatomy of Tar Commands"
+# Zipping an archive
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
+
+# Unzipping an archive
+tar -xzvf name-of-archive.tar.gz
+
+# Flags
+-c : create an archive
+-x : extract
+-z : compress the archive with gzip
+-v : verbose
+-f : specify the filename of the archive
+```
 
 ## Git
 
@@ -334,6 +359,64 @@ TO 'itsuser'@'localhost';
 ```
 
 3. Click CMD+Enter on Mac or Ctrl+Enter on Windows to run the query.
+
+### Exporting & Importing MySQL dump
+
+When it comes time to migrate the local database to staging or production, or vice versa, it will become necessary to Export the data from one database, and Import it into the other. This can be done in MySQL workbench. 
+
+#### Exporting data
+
+1. Connect to the database you are exporting.
+2. Click Server > Data Export. 
+3. Checkmark the name of the database, and select "Export to Self-Contained File" in the **Export Options**. 
+4. Click Start Export, and the database should export to a file similar to `date.sql`. 
+
+#### Importing data
+
+1. Connect to the database you want to import the data into.
+2. Click Server > Data Import.
+3. Select "Import from a Self-Contained File" in Import Options, and then select the dump file created above. 
+4. Select the name of the database in **Default Schema to be Imported To**. 
+5. Click Start Import. The import process should output a success message. If it outputs an error instead, read below. 
+
+#### Error 1273
+
+During the import process, you may experience an error similar to: 
+
+```
+ERROR 1273 (HY000) at line 25: Unknown collation: 'utf8mb4_0900_ai_ci'
+
+Operation failed with exitcode 1
+17:46:09 Import of /Users/ciesinsg/Documents/Backups/2023-11-07-backup.sql has finished with 1 errors
+```
+
+This indicates that the database, and/or one or more tables & columns may be using the wrong collation. This is due to a version mismatch between the exported database and the imported one. In this case, the exported database is MySQL version 8, while the importing database is MySQL version 5.7, and does not recognize 'utf8mb4_0900_ai_ci'. To correct this, it is necessary to first alter the database, tables, and columns, and then export it once again. If this is done correctly, the database should import successfully. 
+
+This process is well documented at this [Atlassian Page](https://confluence.atlassian.com/kb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-744326173.html). 
+
+### Useful Queries
+
+#### Check SQL Version
+
+```
+SHOW VARIABLES LIKE "%version%"
+```
+
+Or alternatively: 
+
+```
+SELECT VERSION();
+```
+
+The second method returns only the version, and not all "version" variables. 
+
+#### Check Database Collation
+
+```
+SHOW VARIABLES LIKE 'collation%';
+```
+
+Learn more about [finding the database collation](https://database.guide/how-to-find-the-collation-in-mysql/).
 
 ## Apache
 
