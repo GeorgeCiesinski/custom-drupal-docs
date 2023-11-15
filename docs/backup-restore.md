@@ -49,13 +49,21 @@ The major version 0 is for unreleased development versions of the site. Once the
 
 Creating a full backup is a multi-step process:
 
-1. [Turn off Cron Jobs](#turn-off-cron-jobs)
-1. [Clear Cache](#clear-cache)
-1. [Loosen Permissions](#loosen-permissions)
-1. [Back up Site Files](#backup-site-files)
-1. [Back up Database](#backup-database)
-1. [Turn on Cron Jobs](#turn-on-cron-jobs)
-1. [Harden Permissions](#harden-permissions)
+[Creating a Full Backup](#creating-a-full-backup)
+
+[Turn off Cron Jobs](#turn-off-cron-jobs)
+
+[Clear Cache](#clear-cache)
+
+[Loosen Permissions](#loosen-permissions)
+
+[Backup Site Files](#backup-site-files)
+
+[Backup Database](#backup-database)
+
+[Turn on Cron Jobs](#turn-on-cron-jobs)
+
+[Harden permissions](#harden-permissions)
 
 **Note:**  
 
@@ -91,6 +99,14 @@ The quickest and easiest way to clear the cache is to use Drush. The steps to do
 
 ![Clear all Caches](assets/backup-restore/clear-cache.png){ width="400" }
 
+#### Loosen Permissions
+
+The Drupal installation contains protected files and directories that make it difficult to back-up the site or to make changes. It is recommended to loosen these files before zipping the source code, or the protected files and folders may be missing from the backup. 
+
+`project/web/sites/default` is a protected directory that contains the site config files. By default, the permissions for this folder are 555. Use [chmod](developer-tools.md#chmod) to change the permissions to 777.
+
+`project/web/sites/default/settings.php` is the main config file for the site. By default, the permissions for this folder are 444. Use [chmod](developer-tools.md#chmod) to change the permissions to 777.
+
 #### Backup Site Files
 
 The source code can be backed up using the CLI:
@@ -110,7 +126,7 @@ tar -czvf YYYY-MM-DD-project.tar.gz cab
 The database can be backed up using MySQLWorkbench. To back up the database:
 
 1. Open the MySQLWorkbench app and connect to the database.
-2. In the menu, click **Server**, then click **Data Export**.
+2. In the menu, click `Server` > `Data Export`.
 
 ![Data Export](assets/backup-restore/data-export.png){ width="400" }
 
@@ -126,42 +142,68 @@ The database can be backed up using MySQLWorkbench. To back up the database:
 
 Once the database has been backed up, Cron jobs can and should be enabled once again. To do this, simply repeat the steps to [Turn off Cron Jobs](#turn-off-cron-jobs) but instead, change **Run cron every** to **3 hours**.
 
-## Development Site
+#### Harden permissions
 
-It is not recommended to carry out core and module updates on the live/production version of the site because it could introduce breaking changes that are difficult to reverse. It may also result in an unexpected outage. Instead, it is recommended to set up a local development site which is essentially a clone of the live/production server. The process of setting up a local development site can also be used to verify the integrity of the backup files. 
+Once the backup is created, you can once again harden the permissions using [chmod](developer-tools.md#chmod).
 
-This development site is used for updates and major changes as well as for testing. Once the testing is complete, the changes can be pushed to the live site. 
-
-[Making a Development Site](https://www.drupal.org/docs/user_guide/en/install-dev-making.html)
+Change the `project/web/sites/default` directory to permissions 555, and the `project/web/sites/default/settings.php` file to permissions 444. 
 
 ## Restore
 
-This section is about restoring the website from a backup.
+Once a backup is created, it can be used to restore the website or to create a new installation of the site. This can be useful to create a development site or production site. 
 
-## Pushing Website
+There are more steps required when using the backups to migrate the site, or to create a staging or production version of the site. 
 
-This section focuses on pushing the website to the staging server. 
+### Restoring a Site
 
-### Using Rsync to Transfer Website
+These instructions assume that you are restoring a site with an existing Apache configuration. 
 
-Rsync is a command-line utility used to transfer files and directories. It can also be used over SSH making it ideal to transfer the site via SSH. 
+As with [creating a backup](#backups), restoring a site is also a multi-step process: 
 
-#### Pushing from Local to Staging
+#### Unzip Source Code
 
-### Removing Website from Staging
+Unzip the contents of the `project.tar.gz` file into the site directory configured in Apache. If there are existing files in this directory, ensure that you delete them first, including hidden files. 
 
-**Warning:** This action is very dangerous and should be used carefully. It should not be used in production without reaching out to the lead developer as it first grants ALL linux permissions to all users and groups, and then deletes the directory and its contents. It should only be done if there is a significant enough issue to purge the directory and reupload it.
+If unzipping the zip file creates a new subdirectory, move the contents of this subdirectory out into the root directory. 
 
-1. Use Terminal to cd into the Staging directory. 
+#### Restore Database
 
-2. Grant 777 permissions to the directory and its contents. This step is required as certain Drupal files are setup with limited permissions and prevent recursive removal if the permissions aren't changed.
+In order to restore the database, it is first necessary to drop existing tables: 
 
-```shell title="Grant 777 permissions to directory recursively"
-chmod -R 777 its-cab
+1. Using MySQL, run the following query: 
+
+```sql
+SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;')
+FROM information_schema.tables
+WHERE table_schema = 'database_name';
 ```
 
-3. Remove the directory and its contents recursively. 
+This will output a list of SQL commands complete with the existing tables in the database. 
 
-```shell
-rm -rf its-cab
-```
+2. Select each of the items in the output list, right-click them, and select copy without quotations. Paste them into the query window and run the query. 
+
+3. Using MySQLWorkbench, go to the menu and click `server` > `Data Import`.
+
+4. Under **Import Options**, select **Import from Self-Contained File** and select the backup file. Under **Default Schema to be Imported To** select the existing database from the dropdown. Then click Start Import.
+
+## Migrating Site
+
+In order to migrate a site to the staging server or live server, the steps to create a [backup](#backups) are the same. 
+
+The main difference is that the Apache server on those environments will need to be configured, and the config file will need to be changed.
+
+### Apache Server Configuration
+
+The Apache Server is configured by the server team. As the staging and production servers are essentially clones of the local server, the Apache Server needs to point at the `project/web` directory, and not at the project root.
+
+### Changing settings.php
+
+The `settings.php` file must be slightly changed in order to work on the staging and live servers. 
+
+#### Trusted_host
+
+Depending on whether the site is being hosted on the staging or production servers, the correct URL must be defined in [trusted_host](drupal-sites.md#trusted-host) or the site will display an error and will not work.
+
+#### Database
+
+The local environment, staging environment, and production environments should each have their own separate databases. This is defined in the bottom of the settings.php file in [databases](drupal-sites.md#change-the-database-connection).

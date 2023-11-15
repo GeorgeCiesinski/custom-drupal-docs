@@ -4,50 +4,22 @@ The Humber ITS Drupal sites are developed across multiple development environmen
 
 Development is done in a local environment and a staging environment. The finished websites live in the production environment. 
 
+Each environment has it's own instance of the website source code, the MySQL database, and Apache Server to serve the content.
+
 ## Local Environment
 
-The local environment is comprised of several parts. 
-
-- **The Standard Drupal Directory:** The folder containing the composer configuration and site root. This contains all of the configuration data for the site.
-- **Local MySQL database:** The root user and database, as well as the site specific users and databases. 
-- **Apache Server:** The local server which hosts multiple site instances. 
+The local environment is the primary location where the site will be developed. Most changes happen locally and are later pushed to staging for testing.
 
 ## Staging Environment
 
-The staging environment is a server space used to upload and test the development version of the sites. It functions similarly to the production server allowing developers to push code changes, test updates, and more.
+The staging environment is a server space used to upload and test the development version of the sites. It functions similarly to the production server allowing developers to push code changes, test updates, and more. Using the development environment provides a safe method of testing changes before pushing them to production. 
 
-Using the development environment provides a safe method of testing changes before pushing them to production.
+[Making a Development Site](https://www.drupal.org/docs/user_guide/en/install-dev-making.html)
 
-The server used as the development environment is the Marketing Staging Environment (OWL).
+## Production Environment
 
-**Url:** `dlh-mnfs01.humber.org`
+The production environment is where the live site is hosted. 
 
-**Alias:** `alias=owl.humber.org`
+It is not recommended to carry out core and module updates on the live/production version of the site because it could introduce breaking changes that are difficult to reverse. It may also result in an unexpected outage. Instead, it is recommended to set up a local development site, and only push changes to production after they've been thoroughly tested.
 
-### Development Root
-
-The GRMC team has provided access to the directory `/var/www/websites/departments/itsweb/its-new` which is accessible at [https://staging1.humber.ca/its-new/](https://staging1.humber.ca/its-new/).
-
-New directories can be created within to house multiple sites. Those sites can then be accessed by appending the directory name to the above link. 
-
-### Accessing Using SSH
-
-**Note:** In order to access the Development Environment, you must be granted access by the GRMC team. Reach out to Lora Nasim to request access. 
-
-The server can be accessed through SSH using the command:
-
-```shell title="Accessing Owl using SSH"
-ssh -l your_username dlh-mnfs01.humber.org
-```
-
-The server will prompt you to enter your Humber password.
-
-You must then change directories to the [Development Root](#development-root) using the command:
-
-```shell title="Change directories to Development Root"
-cd /var/www/websites/departments/itsweb/its-new
-```
-
-### Uploading a Site to Development Root
-
-Todo
+This development site is used for updates and major changes as well as for testing. Once the testing is complete, the changes can be pushed to the live site. 

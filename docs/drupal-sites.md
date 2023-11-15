@@ -121,7 +121,14 @@ Todo:
 
 ##### Change the Database Connection
 
-Although rare, sometimes it is necessary to change the database connection. This is done by editing the `Settings.php` file. 
+At the bottom of the `settings.php` file, you can find `$databases['default']['default']` which is an array containing the database connection details. On a local environment, this will point at the local MySQL database. The staging environment will also have its own database, and the same is true for the production environment.
+
+To change the database connection, change the below kev-value pairs: 
+
+- `database`: database name
+- `username`: database username
+- `password`: database password
+- `host`: either `'localhost'` or the host provided by the server team
 
 Learn more about [Changing the Database Connection in Drupal's Settings.php](https://ostraining.com/blog/drupal/change-the-database-connection/#:~:text=Change%20the%20Database%20Connection%20in%20Drupal%E2%80%99s%20Settings.php%201,...%206%20Step%20%236.%20Upload%20your%20changes%20)
 
