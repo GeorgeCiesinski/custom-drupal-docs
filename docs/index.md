@@ -10,13 +10,13 @@ These documents provide information for Developers working on Humber ITS sites. 
 
 [Drupal Sites](./drupal-sites.md) - Information shared by all Drupal sites. This contains common practices, maintenance, and shared modules.
 
-[ITS Website](./its-website.md) - Information specific to the ITS Website, including unique modules, roles, and views.
+[Websites](./websites.md) - Information unique to each ITS Website, including modules, roles, and views.
 
-[CAB Website](./cab-website.md) - Information specific to the CAB Website, including unique modules, roles, and views.
+[Theming](./theming.md) - Information about theming the Drupal Sites.
+
+[Database](./database.md) - Information about the database, including setup, usage, errors, and common functions.
 
 [Development Environments](./development-environments.md) - Information about the local, staging, and production servers.
-
-[Maintenance](./maintenance.md) - Information about checking site status and pushing updates.
 
 [Backup and Restore](./backup-restore.md) - Information about backing up site safely.
 

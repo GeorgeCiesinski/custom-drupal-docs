@@ -2,6 +2,110 @@
 
 This document outlines the tools used to develop the sites. With some of the tools, I have also outlined some frequently used processes used during the development of the sites. 
 
+## Git
+
+Git is a version control software and is used by the Humber ITS team to back up Drupal site directories. 
+
+Learn more about [managing the repository using Git](https://www.drupal.org/docs/user_guide/en/extend-git.html).
+
+### Requirements
+
+1. Basic Git knowledge - Learn more about [becoming a git guru](https://www.atlassian.com/git/tutorials).
+
+2. Basic understanding of Git-flow - It is extremely encouraged to maintain git-flow when pushing commits to the site repositories. Learn more about [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+
+### Branch Types
+
+**Main** - Permanent Branch
+
+> This is the production branch and is a permanent branch. Only new versions should be pushed to the main branch. 
+
+**Develop** - Permanent Branch
+
+> This is the main development branch and is the second permanent branch. New features and hotfixes should branch off from the develop branch, and then back into it when complete. Release branches should also branch out from develop before being merged into main. 
+
+> This branch only needs to be created once:
+
+```shell title="Create develop branch and push to origin"
+git checkout -b develop 
+git push --set-upstream origin develop
+```
+
+**Feature**
+
+> This is a new feature. It can be a new element, new logic, or any other code that results in a new feature being added to the project. 
+
+```shell title="Create a new feature branch"
+git checkout -b feature/descriptive-title
+```
+
+**Hotfix**
+
+> This is essentially a bug fix. A hotfix branch would be created specifically to address a bug or issue. Like the feature branch, the changes can later be merged back into develop. 
+
+```shell title="Create a new hotfix branch"
+git checkout -b hotfix/descriptive-title
+```
+
+**Release**
+
+> Unlike Feature or hotfix, a release branch is typically a child of develop and is merged into main. The purpose of the release branch is to do final testing and last-minute changes before creating a tagged release on the main branch. 
+
+```shell title="Create a new release branch"
+git checkout -b release/feature-name
+```
+
+### Common Processes
+
+#### Git Subtree
+
+A git subtree is a way to include one Git repository inside of another. This is useful when a module or subdirectory of one project is used in other projects. In this case, we would create a subtree and push it to it's own repository. This can later be added in as a separate remote and pulled into other projects. The other major benefit is that when changes are made from different projects, those changes can be pushed to the subtree repository, and pulled into other projects, which makes maintenance easy. 
+
+While git remembers your remote, it is unable to tell what subtrees you are using or track their changes independently of your project repo. For this reason, it is important to create a new subtree, pull changes, and push changes to it manually. 
+
+Learn more about [Subtrees](https://youtu.be/JX5GPZjEWTo).
+Learn even more about [Subtrees](https://youtu.be/sC1sfoCo5qY).
+
+##### Creating a New Subtree
+
+**Existing project:** This is the main project which the subtrees are located within.
+**Subtree directory:** This is the folder containing the files you want to turn into a new subtree.
+**Note:** Ignore this step if you are using an existing subtree.
+
+1. Create a new repository on Github and copy the SSH link.
+1. In the existing project, add the remote using an alias: `git remote add alias-name ssh-link`
+1. Split the subtree directory into a separate branch named split: `git subtree split --prefix subtree-directory -b split --rejoin --squash`. The subtree directory is the path relative to your project root. It is good practice to rejoin and squash the commits so that the subtree doesn't contain your existing project history.
+1. Push the subtree to the remove alias created earlier: `git push alias-name split:main`. Here, we are telling git to push the new "split" branch created in the last step to the remote repository with the alias "alias-name", and to push the split branch to this new repo's main branch. 
+
+Upon completing these steps, the newly created git repository will contain the subtree files. 
+
+##### Pulling Changes from Subtree
+
+If the subtree you are using has had changes pushed to it, you can pull those changes into your own project. 
+
+**Note:** To use the alias name, you must have added the repository link as an alias in [this section](#creating-a-new-subtree). Otherwise, use the git repository link in its place instead. 
+
+1. cd into the project root as git sees it.
+1. Pull the changes using `git subtree pull --prefix=subtree-directory --squash alias-name branch-name`
+
+##### Pushing Changes to Subtree
+
+If you have changes to push to the subtree, you can use the below process:
+
+1. cd into the project root as git sees it.
+2. Push the changes using `git subtree push --prefix=subtree-directory alias-name branch-name`
+
+### Additional Info
+
+Some more information can be found in these links. These are meant to get a better understanding of how Git can be used on a Drupal site, as well as best practices and the Git-flow method of creating branches. It should not be used in place of the other instructions in this document. 
+
+[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
+
+[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
+
+[Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
+
+
 ## Command-line
 
 There are many command-line tools which are used throughout the development of the sites. This section covers some of the built-in utilities which don't fall under other categories. 
@@ -177,242 +281,6 @@ tar -xzvf name-of-archive.tar.gz
 -v : verbose
 -f : specify the filename of the archive
 ```
-
-## Git
-
-Git is a version control software and is used by the Humber ITS team to back up Drupal site directories. 
-
-Learn more about [managing the repository using Git](https://www.drupal.org/docs/user_guide/en/extend-git.html).
-
-### Requirements
-
-1. Basic Git knowledge - Learn more about [becoming a git guru](https://www.atlassian.com/git/tutorials).
-
-2. Basic understanding of Git-flow - It is extremely encouraged to maintain git-flow when pushing commits to the site repositories. Learn more about [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-
-### Branch Types
-
-**Main** - Permanent Branch
-
-> This is the production branch and is a permanent branch. Only new versions should be pushed to the main branch. 
-
-**Develop** - Permanent Branch
-
-> This is the main development branch and is the second permanent branch. New features and hotfixes should branch off from the develop branch, and then back into it when complete. Release branches should also branch out from develop before being merged into main. 
-
-> This branch only needs to be created once:
-
-```shell title="Create develop branch and push to origin"
-git checkout -b develop 
-git push --set-upstream origin develop
-```
-
-**Feature**
-
-> This is a new feature. It can be a new element, new logic, or any other code that results in a new feature being added to the project. 
-
-```shell title="Create a new feature branch"
-git checkout -b feature/descriptive-title
-```
-
-**Hotfix**
-
-> This is essentially a bug fix. A hotfix branch would be created specifically to address a bug or issue. Like the feature branch, the changes can later be merged back into develop. 
-
-```shell title="Create a new hotfix branch"
-git checkout -b hotfix/descriptive-title
-```
-
-**Release**
-
-> Unlike Feature or hotfix, a release branch is typically a child of develop and is merged into main. The purpose of the release branch is to do final testing and last-minute changes before creating a tagged release on the main branch. 
-
-```shell title="Create a new release branch"
-git checkout -b release/feature-name
-```
-
-### Common Processes
-
-#### Git Subtree
-
-A git subtree is a way to include one Git repository inside of another. This is useful when a module or subdirectory of one project is used in other projects. In this case, we would create a subtree and push it to it's own repository. This can later be added in as a separate remote and pulled into other projects. The other major benefit is that when changes are made from different projects, those changes can be pushed to the subtree repository, and pulled into other projects, which makes maintenance easy. 
-
-While git remembers your remote, it is unable to tell what subtrees you are using or track their changes independently of your project repo. For this reason, it is important to create a new subtree, pull changes, and push changes to it manually. 
-
-Learn more about [Subtrees](https://youtu.be/JX5GPZjEWTo).
-Learn even more about [Subtrees](https://youtu.be/sC1sfoCo5qY).
-
-##### Creating a New Subtree
-
-**Existing project:** This is the main project which the subtrees are located within.
-**Subtree directory:** This is the folder containing the files you want to turn into a new subtree.
-**Note:** Ignore this step if you are using an existing subtree.
-
-
-1. Create a new repository on Github and copy the SSH link.
-1. In the existing project, add the remote using an alias: `git remote add alias-name ssh-link`
-1. Split the subtree directory into a separate branch named split: `git subtree split --prefix subtree-directory -b split --rejoin --squash`. The subtree directory is the path relative to your project root. It is good practice to rejoin and squash the commits so that the subtree doesn't contain your existing project history.
-1. Push the subtree to the remove alias created earlier: `git push alias-name split:main`. Here, we are telling git to push the new "split" branch created in the last step to the remote repository with the alias "alias-name", and to push the split branch to this new repo's main branch. 
-
-Upon completing these steps, the newly created git repository will contain the subtree files. 
-
-##### Pulling Changes from Subtree
-
-If the subtree you are using has had changes pushed to it, you can pull those changes into your own project. 
-
-**Note:** To use the alias name, you must have added the repository link as an alias in [this section](#creating-a-new-subtree). Otherwise, use the git repository link in its place instead. 
-
-1. cd into the project root as git sees it.
-1. Pull the changes using `git subtree pull --prefix=subtree-directory --squash alias-name branch-name`
-
-##### Pushing Changes to Subtree
-
-If you have changes to push to the subtree, you can use the below process:
-
-1. cd into the project root as git sees it.
-2. Push the changes using `git subtree push --prefix=subtree-directory alias-name branch-name`
-
-### Additional Info
-
-Some more information can be found in these links. These are meant to get a better understanding of how Git can be used on a Drupal site, as well as best practices and the Git-flow method of creating branches. It should not be used in place of the other instructions in this document. 
-
-[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
-
-[Building a Drupal Site with Git](https://www.drupal.org/docs/installing-drupal/building-a-drupal-site-with-git)
-
-[Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
-
-## MySQL
-
-MySQL is the main database used in the Humber development and production environments. This section outlines some common use cases.
-
-### Installation
-
-You need to install two tools to use MySQL locally. 
-
-1. MySQL Workbench
-
-The [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) is the software used to connect to the MySQL database. 
-
-2. MySQL Community Server `8.0.xx`
-
-The [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) is the actual MySQL server you need to run locally. The MySQL Workbench can connect to this server. Currently, MySQL Workbench can only connect to MySQL Community Server `5.7.xx` or `8.0.xx`, so make sure you download an 8.0.xx version. 
-
-### Server Setup
-
-The following instructions are for setup on Mac. 
-
-#### Add Root Connection
-
-The root connection will be used to connect to the local server and write queries. This can be later used to create new users and databases.
-
-1. Install the downloaded MySQL Community Server `8.0.xx`. During the installation it will ask you to set a password. Use the default password option and not legacy. Type in your password carefully as the software will not ask you to verify the password. 
-2. Open System Settings and scroll to the bottom in the left panel. Select MySQL. In the right side of the window, click Initialize database and enter your password. Once this is complete, click "Start MySQL Server".
-![MySQL Settings](assets/developer-tools/mysql-settings.png)
-3. Open MySQL Workbench and click the + button.
-![Add Connection](assets/developer-tools/workbench-add.png)
-4. Fill in the connection information as per below:
-![Connection Info](assets/developer-tools/connection-info.png)
-1. Click "Test Connection". This should prompt a popup asking for your password. Fill it in, making sure to checkmark "Save Password" and click OK. 
-![Connection Password](assets/developer-tools/connection-password.png)
-1. If you see the below window, the connection is successful. In the Setup New Connection screen, you can now click OK and the connection will be saved. 
-![Success](assets/developer-tools/success.png)
-
-### Create New Database
-
-Each local website requires a unique user and schema. In MySQL the schema is synomymous with database. The website is configured to use the created user to access the database. 
-
-Learn more about [Creating a New Database](https://git.drupalcode.org/project/drupal/-/blob/10.1.x/core/INSTALL.mysql.txt).
-
-#### Create User
-
-1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
-2. Click Users and Privileges in the left side menu.
-![users](assets/developer-tools/users.png)
-3. Click Create User, and then fill out the username and password.
-![create-user](assets/developer-tools/create-user.png)
-4. Click Apply to save the new user.
-
-**Note:** Make sure you set the host to localhost in order for the later steps to work.
-
-#### Create Schema
-
-1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
-2. Click the Create New Schema button on the top toolbar.
-![Create New Schema](assets/developer-tools/create-new-schema.png)
-3. Name the new database, then select the Character Set `utf8mb4` and the Collation `utf8mb4_unicode_ci`. Click Apply, then Apply once again. 
-![Configure Schema](assets/developer-tools/configure-schema.png)
-
-#### Grant User Access to Schema
-
-1. Connect to the root database which was setup in [Add Root Connection](#add-root-connection). 
-2. In the Query tab, type the following SQL command where `its` is replaced by the database, and `itsuser`@localhost is replaced by the username.
-
-```
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES
-ON its.*
-TO 'itsuser'@'localhost';
-```
-
-3. Click CMD+Enter on Mac or Ctrl+Enter on Windows to run the query.
-
-### Exporting & Importing MySQL dump
-
-When it comes time to migrate the local database to staging or production, or vice versa, it will become necessary to Export the data from one database, and Import it into the other. This can be done in MySQL workbench. 
-
-#### Exporting data
-
-1. Connect to the database you are exporting.
-2. Click Server > Data Export. 
-3. Checkmark the name of the database, and select "Export to Self-Contained File" in the **Export Options**. 
-4. Click Start Export, and the database should export to a file similar to `date.sql`. 
-
-#### Importing data
-
-1. Connect to the database you want to import the data into.
-2. Click Server > Data Import.
-3. Select "Import from a Self-Contained File" in Import Options, and then select the dump file created above. 
-4. Select the name of the database in **Default Schema to be Imported To**. 
-5. Click Start Import. The import process should output a success message. If it outputs an error instead, read below. 
-
-#### Error 1273
-
-During the import process, you may experience an error similar to: 
-
-```
-ERROR 1273 (HY000) at line 25: Unknown collation: 'utf8mb4_0900_ai_ci'
-
-Operation failed with exitcode 1
-17:46:09 Import of /Users/ciesinsg/Documents/Backups/2023-11-07-backup.sql has finished with 1 errors
-```
-
-This indicates that the database, and/or one or more tables & columns may be using the wrong collation. This is due to a version mismatch between the exported database and the imported one. In this case, the exported database is MySQL version 8, while the importing database is MySQL version 5.7, and does not recognize 'utf8mb4_0900_ai_ci'. To correct this, it is necessary to first alter the database, tables, and columns, and then export it once again. If this is done correctly, the database should import successfully. 
-
-This process is well documented at this [Atlassian Page](https://confluence.atlassian.com/kb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-744326173.html). 
-
-### Useful Queries
-
-#### Check SQL Version
-
-```
-SHOW VARIABLES LIKE "%version%"
-```
-
-Or alternatively: 
-
-```
-SELECT VERSION();
-```
-
-The second method returns only the version, and not all "version" variables. 
-
-#### Check Database Collation
-
-```
-SHOW VARIABLES LIKE 'collation%';
-```
-
-Learn more about [finding the database collation](https://database.guide/how-to-find-the-collation-in-mysql/).
 
 ## Apache
 

@@ -132,6 +132,38 @@ To change the database connection, change the below kev-value pairs:
 
 Learn more about [Changing the Database Connection in Drupal's Settings.php](https://ostraining.com/blog/drupal/change-the-database-connection/#:~:text=Change%20the%20Database%20Connection%20in%20Drupal%E2%80%99s%20Settings.php%201,...%206%20Step%20%236.%20Upload%20your%20changes%20)
 
+## Maintenance
+
+### Core and Module Update
+
+Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. In many cases, it is beneficial to update these components to ensure that the Humber site is secure and working correctly.
+
+#### How to tell there's updates?
+
+Updates can be checked using the Admin toolbar on the website by visiting the Available Updates section. 
+
+`Reports` > `Available Updates`
+
+This will show a screen like this which shows if Drupal core and modules are up to date:
+
+![Available Updates](assets/drupal-sites/updates.png)
+
+If any of these components do not show `Up to date` and a green check mark, those components may have updates.
+
+#### Should I update?
+
+Updates should be made if they address a security flaw or a bug that may affect the website. You can check this by visiting the pages of the Drupal core version or the module project pages and reading the release notes. Any significant changes will be listed there, and a decision can be made based on this information.
+
+Learn more about [Updating Core Software](https://www.drupal.org/docs/user_guide/en/install-composer.html).
+
+Learn more about [Updating Modules](https://www.drupal.org/docs/user_guide/en/security-update-module.html).
+
+Learn more about [Updating Themes](https://www.drupal.org/docs/user_guide/en/security-update-theme.html).
+
+#### Testing Updates
+
+Updates should be made on the development website and tested thoroughly before pushing to production. This would help with catching any incompatibilities or issues that may come up from the updates.  
+
 ## Roles
 
 Roles are a way to define users and establish a list of permissions the user has. Users can be assigned different roles, and roles can be edited to change the name or the list of permissions they have.
@@ -240,13 +272,11 @@ All the Humber ITS Websites are builit with Composer. This makes adding and upda
 
 Learn more about [Managing Dependencies using Composer](https://www.drupal.org/docs/develop/using-composer/manage-dependencies#adding-modules).
 
-### Considerations Before Updating
+### Before Updating
 
 The website might flag some modules that are outdated, but care should be taken before updating any module. It is important to go over the various modules in use on the site and check the module Drupal pages to see if there are any special instructions for carrying out updates. 
 
 Furthermore, it is important to make sure we are using the correct module for the core version. If using Drupal 10, only modules compatible with Drupal 10 should be used. If a new version of a module is built for Drupal 11, the core files should be updated first, and only if it is deemed appropriate to update the core version.
-
-I will go into further detail about maintenance further in this document. 
 
 ### Shared Modules
 

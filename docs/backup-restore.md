@@ -49,8 +49,6 @@ The major version 0 is for unreleased development versions of the site. Once the
 
 Creating a full backup is a multi-step process:
 
-[Creating a Full Backup](#creating-a-full-backup)
-
 [Turn off Cron Jobs](#turn-off-cron-jobs)
 
 [Clear Cache](#clear-cache)
@@ -138,6 +136,8 @@ The database can be backed up using MySQLWorkbench. To back up the database:
 
 5. Move the resulting file into the backup folder described in [Backup Conventions](#backup-conventions).
 
+**IMPORTANT:** The database, tables, and columns being exported must be set to the correct [collation](database.md#collation) or the import will fail. In the event that the import fails, follow the steps to fix collation, and then export the data once again. 
+
 #### Turn on Cron Jobs
 
 Once the database has been backed up, Cron jobs can and should be enabled once again. To do this, simply repeat the steps to [Turn off Cron Jobs](#turn-off-cron-jobs) but instead, change **Run cron every** to **3 hours**.
@@ -170,21 +170,11 @@ If unzipping the zip file creates a new subdirectory, move the contents of this 
 
 In order to restore the database, it is first necessary to drop existing tables: 
 
-1. Using MySQL, run the following query: 
+1. [Drop tables](database#drop-database-tables) in the outdated database. 
 
-```sql
-SELECT CONCAT('DROP TABLE IF EXISTS `', table_name, '`;')
-FROM information_schema.tables
-WHERE table_schema = 'database_name';
-```
+2. Using MySQLWorkbench, go to the menu and click `server` > `Data Import`.
 
-This will output a list of SQL commands complete with the existing tables in the database. 
-
-2. Select each of the items in the output list, right-click them, and select copy without quotations. Paste them into the query window and run the query. 
-
-3. Using MySQLWorkbench, go to the menu and click `server` > `Data Import`.
-
-4. Under **Import Options**, select **Import from Self-Contained File** and select the backup file. Under **Default Schema to be Imported To** select the existing database from the dropdown. Then click Start Import.
+3. Under **Import Options**, select **Import from Self-Contained File** and select the backup file. Under **Default Schema to be Imported To** select the existing database from the dropdown. Then click Start Import.
 
 ## Migrating Site
 
