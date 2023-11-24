@@ -523,3 +523,19 @@ If a user is unable to login for some reason, it is possible to send them a one-
 ```shell title="Generate a one-time login link" linenums="1"
 drush uli --name=username  --uri=website-url
 ```
+
+#### Updb
+
+This is an alias for [updatedb](https://www.drush.org/11.x/commands/updatedb/). This essentially runs database updates like `update.php`.
+
+```shell title="Drush updb"
+drush updb
+```
+
+#### Watchdog
+
+[Drush watchdog:show](https://www.drush.org/11.x/commands/watchdog_show/) outputs a list of errors that came up in Drupal. 
+
+```shell title="Drush Watchdog"
+drush watchdog:show
+```
