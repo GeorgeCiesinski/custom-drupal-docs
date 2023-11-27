@@ -106,111 +106,22 @@ This indicates that the database, and/or one or more tables & columns may be usi
 
 ### Collation
 
-Collation determines how strings are sorted in the database, including case, and diacritics. 
-
-#### Check Collation
-
-```sql title="Check database collation"
-use database_name;
-SELECT @@character_set_database, @@collation_database;
-```
-
-```sql title="Check table collation"
-SELECT TABLE_SCHEMA
-    , TABLE_NAME
-    , TABLE_COLLATION 
-FROM INFORMATION_SCHEMA.TABLES;
-```
-
-```sql title="Check column collation"
-SELECT TABLE_NAME 
-    , COLUMN_NAME 
-    , COLLATION_NAME 
-FROM INFORMATION_SCHEMA.COLUMNS;
-```
-
-```sql title="Aggregated list of Database Objects with Collation and Character Set"
-SELECT TABLE_SCHEMA,
-       TABLE_NAME,
-       CCSA.CHARACTER_SET_NAME AS DEFAULT_CHAR_SET,
-       COLUMN_NAME,
-       COLUMN_TYPE,
-       C.CHARACTER_SET_NAME, CCSA.COLLATION_NAME, ENGINE
-  FROM information_schema.TABLES AS T
-  JOIN information_schema.COLUMNS AS C USING (TABLE_SCHEMA, TABLE_NAME)
-  JOIN information_schema.COLLATION_CHARACTER_SET_APPLICABILITY AS CCSA
-       ON (T.TABLE_COLLATION = CCSA.COLLATION_NAME)
- WHERE TABLE_SCHEMA=SCHEMA()
-   AND C.DATA_TYPE IN ('enum', 'varchar', 'char', 'text', 'mediumtext', 'longtext')
- ORDER BY TABLE_SCHEMA,
-          TABLE_NAME,
-          COLUMN_NAME, CCSA.COLLATION_NAME, ENGINE;
-```
+Collation determines how strings are sorted in the database, including case, and diacritics. When a database is exported from SQL 8, it needs to be fixed before it can be imported into SQL 5.7. 
 
 #### Fixing Collation
 
-Fixing collation requires a number of steps to construct a SQL query. Shorter queries are needed to construct the main query which will fix the collation of the database, tables, and columns.
+1. If no MySQL dump exists yet, create one by following the steps in [Importing Data](#importing-data). This should result in a `dump-name.sql` file. 
+2. Run SED on the sql dump to replace the unrecognized collation with one that SQL 5.7 understands. It is necessary to run SED twice in order to replace both the collation and the charset: 
 
-**Note:** The charset `utf8mb4` and collation `utf8mb4_unicode_ci` are required in all database structures. 
+```title="Using SED to fix collation"
+# Fix Collation
+sed -i '' s/utf8mb4_0900_ai_ci/utf8_general_ci/g dump-name.sql
 
-1. Start the main query by disabling Foreign Key checks at the start, and re-enabling them at the end.
-
-```sql title="Disable Foreign Key Checks"
-SET FOREIGN_KEY_CHECKS=0;
- 
--- Insert your other SQL Queries here...
- 
-SET FOREIGN_KEY_CHECKS=1;
+# Fix Charset
+sed -i '' s/utf8mb4/utf8/g dump-name.sql
 ```
 
-2. Modify the Alter Database query by adding in your database. Once modified, simply place it in the main query.
-
-```sql title="Create the Alter Database query"
-ALTER DATABASE <yourDB> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
-```
-
-3. Modify each of the below scripts by adding in your database, then run the scripts to generate the queries required to alter each table. Copy the outputted query rows "without quotations", and then paste them into the main query. 
-
-```sql title="Generate the Alter Tables queries"
-SELECT CONCAT('ALTER TABLE `',  table_name, '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;')
-FROM information_schema.TABLES AS T, information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` AS C
-WHERE C.collation_name = T.table_collation
-AND T.table_schema = '<yourDB>'
-AND
-(
-    C.CHARACTER_SET_NAME != 'utf8mb4'
-    OR
-    C.COLLATION_NAME != 'utf8mb4_unicode_ci'
-);
-```
-
-```sql title="Generate the queries to alter varchar columns"
-SELECT CONCAT('ALTER TABLE `', table_name, '` MODIFY `', column_name, '` ', DATA_TYPE, '(', CHARACTER_MAXIMUM_LENGTH, ') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', (CASE WHEN IS_NULLABLE = 'NO' THEN ' NOT NULL' ELSE '' END), ';')
-FROM information_schema.COLUMNS 
-WHERE TABLE_SCHEMA = '<yourDB>'
-AND DATA_TYPE = 'varchar'
-AND
-(
-    CHARACTER_SET_NAME != 'utf8mb4'
-    OR
-    COLLATION_NAME != 'utf8mb4_unicode_ci'
-);
-```
-
-```sql title="Generate the queries to alter non-varchar columns"
-SELECT CONCAT('ALTER TABLE `', table_name, '` MODIFY `', column_name, '` ', DATA_TYPE, ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', (CASE WHEN IS_NULLABLE = 'NO' THEN ' NOT NULL' ELSE '' END), ';')
-FROM information_schema.COLUMNS 
-WHERE TABLE_SCHEMA = '<yourDB>'
-AND DATA_TYPE != 'varchar'
-AND
-(
-    CHARACTER_SET_NAME != 'utf8mb4'
-    OR
-    COLLATION_NAME != 'utf8mb4_unicode_ci'
-);
-```
-
-4. Run the main query once all of the altered and generated query rows are pasted into it. 
+**Note:** SED replaces one string of text with another. In a MySQL dump file, this alters the collation defined in multiple parts of the file. 
 
 ### Useful Queries
 
