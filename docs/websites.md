@@ -103,6 +103,22 @@ TBD
 
 The below modules are unique to the ITS site. In addition to these, check out [Drupal Sites Modules](drupal-sites.md#modules) for all of the modules ITS shares with other Humber Drupal Sites.
 
-## Views
+### Views
 
 TBD
+
+## Directory
+
+The Humber Directory is an existing site located at [https://humber.ca/directory/](https://humber.ca/directory/#). This site was developed by Perceptible and is hosted on [zandee.humber.org](zandee.humber.org). There is no staging environment setup for this site, so all changes must be made carefully in the production environment, or tested before hand on a local environment.
+
+### Editing or Adding Departments
+
+The department list is managed in the `perceptible_handler_filter_directory.inc` file within the site directory. This can be found at the below location and edited with a text editor.
+
+```
+sites > all > modules > custom > perceptible > views > perceptible_handler_filter_directory.inc
+```
+
+### Adding Employees to the Directory
+
+Employee information is managed in Active Directory. 

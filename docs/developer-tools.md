@@ -95,6 +95,20 @@ If you have changes to push to the subtree, you can use the below process:
 1. cd into the project root as git sees it.
 2. Push the changes using `git subtree push --prefix=subtree-directory alias-name branch-name`
 
+#### Tagging
+
+Tagging is used to version certain commits so that they can be tracked and checked out if needed. 
+
+##### Annotated Tags with Message
+
+To standardize the process when working on the ITS sites, annotated tags with a message are recommended. While it is okay to use beta tags within a branch, most tagging should be done on the develop and main branches. This can be done after merging a feature into develop for instance: 
+
+```
+git checkout develop
+git merge feature-branch
+git tag -a v1.0.0 -m "Release version 1.0.0"
+```
+
 ### Additional Info
 
 Some more information can be found in these links. These are meant to get a better understanding of how Git can be used on a Drupal site, as well as best practices and the Git-flow method of creating branches. It should not be used in place of the other instructions in this document. 
