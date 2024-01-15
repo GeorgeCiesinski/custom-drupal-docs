@@ -26,26 +26,6 @@ The change requester role is for any users who need to request new change reques
 
 The CAB site uses a number of unique modules which are outlined here. 
 
-#### Calendar View
-
-The [Calendar View](https://www.drupal.org/project/calendar_view) module displays views results on an interactive calendar. This module is used to display change requests within a calendar.
-
-#### Charts
-
-The [Charts](https://www.drupal.org/project/charts) module displays views result fields as charts. It also provides lots of configuration options such as colors, title, labels, and more.
-
-#### Date Popup
-
-The [Date Popup](https://www.drupal.org/project/date_popup) module adds a native HTML5 popup widget to the date fields in views filters so that users don't have to manually enter dates. 
-
-#### Field Group
-
-The [Field Group](https://www.drupal.org/project/field_group) module adds the functionality to group fields on forms and displays.
-
-#### Field Permissions
-
-The [Field Permissions](https://www.drupal.org/project/field_permissions) module allows administrators to set field level permissions so that certain fields can only be viewed by specific roles. 
-
 ### Content Types
 
 The CAB site uses the below custom content types:
@@ -95,17 +75,9 @@ Check out the [Drupal Sites documentation](./drupal-sites.md) for information th
 
 [ITS Website Sourcecode](https://github.com/Humber-ITS/ITS-site).
 
-### Roles
-
-TBD
-
 ### Modules
 
 The below modules are unique to the ITS site. In addition to these, check out [Drupal Sites Modules](drupal-sites.md#modules) for all of the modules ITS shares with other Humber Drupal Sites.
-
-### Views
-
-TBD
 
 ## Directory
 

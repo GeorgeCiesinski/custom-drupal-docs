@@ -2,9 +2,7 @@
 
 ## Introduction
 
-This document contains information that is shared between all the Humber ITS Websites built using Drupal. 
-
-This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
+This document contains information that is shared between all the Humber ITS Websites built using Drupal. This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
 
 **Warning:** There are many links I have included across various sections of this documentation for further reading. Many of these links contain good information, but many also contain outdated information from older versions of Drupal. 
 
@@ -16,18 +14,6 @@ Humber ITS Drupal Sites use the LAMP stack:
 * Apache Server
 * MySQL
 * PHP
-
-## Version Control
-
-The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
-
-**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, see [Backup and Restore](backup-restore.md).
-
-### Gitignore
-
-A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
-
-Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
 
 ## Development
 
@@ -49,7 +35,7 @@ Learn more about [Development Environments](development-environments.md).
 ### Settings.php
 
 The `settings.php` file contains sensitive data about the website such as the database connection, trusted host, and configuration information. 
-This file should NOT be uploaded to Github. Instead, it should be backed up in a secure location. 
+This file should not be uploaded to Github. Instead, it should be backed up in a secure location. 
 
 The file is also read-only by default which is required to ensure the site is secure, however, there are many instances where the administrator may have to edit this file. The instructions to do this are below.
 
@@ -287,9 +273,9 @@ The website might flag some modules that are outdated, but care should be taken 
 
 Furthermore, it is important to make sure we are using the correct module for the core version. If using Drupal 10, only modules compatible with Drupal 10 should be used. If a new version of a module is built for Drupal 11, the core files should be updated first, and only if it is deemed appropriate to update the core version.
 
-### Shared Modules
+### Modules
 
-Shared Modules are any modules that are used across most or all of the Humber ITS Drupal sites. 
+This section includes many useful modules as well as any specific instructions to setup and use the modules. 
 
 #### Admin Toolbar
 
@@ -302,11 +288,25 @@ In the Extend menu, the following options are also enabled:
 * Admin Toolbar Extra Tools
 * Admin Toolbar Search
 
-#### R4032 Login
+#### Calendar View
 
-[https://www.drupal.org/project/r4032login](https://www.drupal.org/project/r4032login)
+The [Calendar View](https://www.drupal.org/project/calendar_view) module displays views results on an interactive calendar. This module is used to display change requests within a calendar.
 
-This module redirects anonymous users to login if the content they are trying to view requires a certain level of permissions. 
+#### Charts
+
+The [Charts](https://www.drupal.org/project/charts) module displays views result fields as charts. It also provides lots of configuration options such as colors, title, labels, and more.
+
+#### Date Popup
+
+The [Date Popup](https://www.drupal.org/project/date_popup) module adds a native HTML5 popup widget to the date fields in views filters so that users don't have to manually enter dates. 
+
+#### Field Group
+
+The [Field Group](https://www.drupal.org/project/field_group) module adds the functionality to group fields on forms and displays.
+
+#### Field Permissions
+
+The [Field Permissions](https://www.drupal.org/project/field_permissions) module allows administrators to set field level permissions so that certain fields can only be viewed by specific roles. 
 
 #### Pathauto
 
@@ -316,7 +316,7 @@ This module is used to automatically generate unique URL’s for new content. De
 
 ##### Configuring Pathauto
 
-1. After installing **Pathauto, go to Admin -> Configuration -> Search & Metadata -> URL Aliases**
+1. After installing Pathauto, go to **Admin -> Configuration -> Search & Metadata -> URL Aliases**
 1. Click the Patterns tab
 1. Click **+ Add Pathauto pattern**
 1. Select the Pattern type "Content" and add the configuration `[node:content-type][node:nid]`
@@ -324,6 +324,105 @@ This module is used to automatically generate unique URL’s for new content. De
 Different content may require a different configuration. For more information, see the link below. 
 
 Learn more about using [PathAuto](https://ostraining.com/blog/drupal/pathauto-2/).
+
+#### R4032 Login
+
+[https://www.drupal.org/project/r4032login](https://www.drupal.org/project/r4032login)
+
+This module redirects anonymous users to login if the content they are trying to view requires a certain level of permissions. 
+
+#### SAML Authentication
+
+[https://www.drupal.org/project/samlauth](https://www.drupal.org/project/samlauth)
+
+This module is used to add SAML SSO to your Drupal Site. 
+
+##### Installing SAML Authentication
+
+It is recommended to read through the [SAML Authentication README](https://git.drupalcode.org/project/samlauth) before proceeding with installation and setup.
+
+1. Get the composer command from the Drupal SAML Authentication module page and run it in your project directory.
+1. Go to your Extend menu and enable the module. 
+1. Add the below reverse proxy settings to your `settings.php` file:
+
+```
+$settings['reverse_proxy'] = TRUE;
+$settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
+$settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
+```
+
+**Note:** This step is required due to Humber's AWS servers being behind a load balancer. This prevents the site from seeing it's actual IP and protocol and Drupal falsely thinks that it is using `http` instead of `https` protocol. As `https` is required for Humber's Azure policy, these settings are needed to ensure Drupal sees the correct protocol. 
+
+##### Generate Key and Cert Files
+
+1. `cd` into a directory where you can keep your key and cert files. This should not be in your `/web` directory. One recommendation is to keep both files in a folder called `saml_cert` in your Drupal root directory.
+1. Once you have changed directories to the desired folder, run the below command and follow the directions in the prompts.
+
+```
+openssl req -new -x509 -days 3652 -nodes -out sp.crt -keyout sp.key
+```
+
+##### Configuring SAML Authentication
+
+Once SAML Authentication has been installed, you can access the settings under **Configuration -> People -> SAML authentication**. 
+
+As the settings page contains multiple tabs and multiple sections within the tabs, I specified each tab and section for the below settings. For any settings not mentioned, leave the default value. 
+
+**CONFIGURATION TAB**
+
+**Login/Logout Section**
+
+1. Under "Roles allowed to use Drupal login also when linked to a SAML login", checkmark any roles that should still be able to login without SAML. Admin is recommended as a SAML outage could cause the site to be inaccessible.
+
+**Service Provider Section**
+
+1. Set an Entity ID. This can be `https://your-site.io` or whatever your URL is
+1. Under "Type of values to save for the key/certificate" select "File"
+1. Under "Private Key filename" and "X.509 Certificate Filename" enter the absolute paths for both files. This should look similar to `/var/www/websites/site_name/saml_cert/sp.key` & `/var/www/websites/site_name/saml_cert/sp.crt`
+
+**Important:** After you have configured the Service Provider Section, your Project Manager should connect you with Digital Solutions. You will need to provide them with the below information, and they will provide you with a metadata URL you will need for the next section. 
+
+1. App Name: Name of your app.
+1. Entity ID: The ID configured in the Service Provider Sectoin.
+1. Reply URL: This is listed in the Service Provider Section beside "Assertion Consumer Service".
+1. Who needs access: Which department or individuals should have access to the site.
+
+**Identity Provider Section**
+
+SAML Authentication doesn't have any way of parsing the metadata URL, so at this time it is recommended to open this URL in the browser and `ctrl + f` the information you need.
+
+1. Enter the Entity ID from the metadata URL. This should look like `entityID="long-id"`
+1. Enter the Single Sign On Service & Single Logout Service from the metadata URL. This will start with `<SingleSignOnService...` & `<SingleLogoutService...`
+1. Below "Type of values to save for the certificate(s)" select "Configuration", and in the "Certificate" textbox, paste in the X.509 certificate from the metadata URL. This will start with `<X509Certificate>`
+
+**User Info and Syncing Section**
+
+1. For "Unique ID attribute" paste `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` which is the Azure username attribute, and is used as the unique identifier for SSO.
+1. To enable name matching (read below for more information), checkmark "Enable matching on name" under "Attempt to link SAML data to existing local users".
+1. Ensure that you checkmark which names are eligible for matching to their SSO accounts. 
+1. Enable "Synchronize email address on every login" for the email address to be updated automatically.
+1. For "User name attribute" enter `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`
+1. For "User email attribute" enter `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` 
+
+**Name Matching & User Creation:** Name matching allows Drupal to match an existing user with the SSO account when the user logs in. This requires creating the user first with their username@humber.ca, and then logging in with the user. If you require new users to be created when they login by SSO for the first time, you must instead enable "Create users from SAML data". 
+
+**SAML Message Validation Section**
+
+1. Enable "Retrieve logout signature parameters from $_SERVER['REQUEST']"
+1. Disable "Require messages to be signed"
+
+**Debugging Section**
+
+There are no settings that need to be turned on in this section, but it provides useful tools for debugging. I recommend enabling "Show detailed errors to the user" while configuring SAML.
+
+**USER FIELD MAPPING TAB**
+
+This tab is for configuring attribute mapping. By default, Drupal users only have usernames. If you need user accounts to also sync names, you need to configure attribute mapping. 
+
+1. First, you need to add a name field in Account Settings. You can do this by going to **Configuration -> People -> Account Settings -> Manage Fields**. Then, click "Create a New Field". If you want to have the complete Display Name (first and last name combined) then simply create a "Display Name" field with the field type "Text (plain)". You can also configure the "Manage Form Display" and "Manage Display" sections to your liking. Once this is done, go back to the User Field Mapping tab under SAML Authentication settings. 
+1. Click "Add Mapping". For "SAML Attribute", you can add `http://schemas.microsoft.com/identity/claims/displayname`. For "User Field" you can select the field you created in the previous step. 
+
+**More Information about Names:** The Display Name attribute is the full name of the user, but it is also possible to get the given name and surname of the user using different attributes from the Metadata URL. You can find the complete list by looking under `<fed:ClaimTypesOffered>` in the Metadata URL. 
 
 #### Gin Theme
 
