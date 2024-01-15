@@ -6,30 +6,15 @@ This document contains information that is shared between all the Humber ITS Web
 
 This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
 
-**Warning:** There are many links I have included across various sections of this documentation. Many of these links contain good information, but many also contain outdated information from older versions of Drupal. This is unfortunately the nature of open-source documentation. I have done my best to sift through this data and only include accurate and current information in this documentation. For that reason, the links are only intended to provide insight into changes from older versions of Drupal, or to reinforce certain points made in this documentation which I have confirmed is correct. 
-
-### Requirements
-
-The ITS website serves tens of thousands of Faculty Members, Staff and Students in a College environment. The below requirements will help to provide a positive and secure experience to all website users: 
-
-1.	**Security** – The website should stay up to date with major security updates, and should include authentication for all users who modify the content of the site. 
-2.	**Optimization** – All images, videos, and other assets should be optimized before usage on the site to ensure a fast browsing experience.
-3.	**Accessibility** – Content should meet the accessibility requirements outlined in the AODA (Accessibility for Ontarians with Disabilities Act) 
-
-### Guidelines
-
-[HUMBER WEB ACCESSIBILITY COMPLIANCE (AODA)](https://humber.ca/tutorial/web-accessibility-compliance.html) - provide access to the WCAG Quick-Reference guide and AODA Compliance Reference, as well as various tools that assist in evaluating Web Accessibility. 
-
-[Humber Interim Web Guidelines](https://humber.ca/brand/sites/default/files/publications/interim-web-guidelines.pdf
-) - provides guidelines for standards Humber Websites should meet.
+**Warning:** There are many links I have included across various sections of this documentation for further reading. Many of these links contain good information, but many also contain outdated information from older versions of Drupal. 
 
 ### Stack
 
-The Humber ITS Drupal Stack uses:
+Humber ITS Drupal Sites use the LAMP stack:
 
 * Linux OS
 * Apache Server
-* PostgreSQL
+* MySQL
 * PHP
 
 ## Version Control
@@ -148,6 +133,8 @@ $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\R
 
 Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. In many cases, it is beneficial to update these components to ensure that the Humber site is secure and working correctly.
 
+**Warning:** It is highly recommended to backup the site and database before carrying out an update. Updating can run automatic scripts that update the database, and if anything goes wrong it can cause source code and data loss that may be unrecoverable.
+
 #### How to tell there's updates?
 
 Updates can be checked using the Admin toolbar on the website by visiting the Available Updates section. 
@@ -169,6 +156,18 @@ Learn more about [Updating Core Software](https://www.drupal.org/docs/user_guide
 Learn more about [Updating Modules](https://www.drupal.org/docs/user_guide/en/security-update-module.html).
 
 Learn more about [Updating Themes](https://www.drupal.org/docs/user_guide/en/security-update-theme.html).
+
+#### Updating Core Minor Version
+
+Updating a minor version (ex. Drupal 10.1 -> Drupal 10.2) is usually quite simple. Despite this, it is always recommended to go to the [Releases](https://www.drupal.org/project/drupal/releases) page and click the version you want to update to. 
+
+Once you are on the specific release page, there are multiple snippets you can copy to either install this Drupal version, update to the latest version, or update to this specific version. It is recommended to heed the warning to update to the latest version as pinning to a specific release may make it more challenging to update your site in future.
+
+#### Updating Major Version
+
+Updating a major version (ex. Drupal 9 -> Drupal 10) can be more difficult and ultimately depends on the versions involved. Every major version can contain many changes and may require specific steps to properly update. 
+
+When updating to a new major version, it is recommended to look up the Drupal version and read the documentation as this usually indicates the best way to carry out an update. 
 
 #### Testing Updates
 

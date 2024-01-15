@@ -45,12 +45,19 @@ Development settings contain options to enable Twig comments which output which 
 
 In addition to the above settings, it is necessary to disable the caching of static assets such as CSS & JS within the server itself (Apache in our case).
 
+## References
+
+### API Reference
+
+[API Reference](https://api.drupal.org/api/drupal/10) provides documentation generated from comments in Drupal Source Code and are an invaluable reference when coding themes or modules. 
+
+#### Hooks
+
+[Hooks](https://api.drupal.org/api/drupal/core%21core.api.php/group/hooks/10) provides documentation for various hooks from core code as well as built-in modules and can be used to override files and settings within these modules. 
+
+
 ## Tools
 
 ### Starterkit
 
 In the past, Drupal themes were created manually by creating the required folders, configurations, and files. Today, it is a bit easier thanks to Starterkit. This tool is built into the latest versions of Drupal and uses a PHP script to generate a basic subtheme of [Stable 9](glossary.md#stable-9). 
-
-### Webpack
-
-TBD

@@ -3,6 +3,7 @@ nav:
   - 'index.md'
   - 'drupal-sites.md'
   - 'websites.md'
+  - 'standards.md'
   - 'theming.md'
   - 'database.md'
   - 'development-environments.md'
