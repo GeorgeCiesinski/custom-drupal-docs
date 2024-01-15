@@ -132,6 +132,16 @@ To change the database connection, change the below kev-value pairs:
 
 Learn more about [Changing the Database Connection in Drupal's Settings.php](https://ostraining.com/blog/drupal/change-the-database-connection/#:~:text=Change%20the%20Database%20Connection%20in%20Drupal%E2%80%99s%20Settings.php%201,...%206%20Step%20%236.%20Upload%20your%20changes%20)
 
+##### Reverse-proxy Settings
+
+Humber servers operate over a load balancer which causes Drupal sites to think they are using the http protocol instead of https. This becomes more apparent when Drupal sites need to generate URLs like a metadata URL or ACS URL. If your site is generating these URLs with `http://` instead of `https://` then you need to add the below to your `settings.php` file:
+
+```php title="Reverse-proxy Config"
+$settings['reverse_proxy'] = TRUE;
+$settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
+$settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
+```
+
 ## Maintenance
 
 ### Core and Module Update
@@ -325,14 +335,6 @@ Gin theme is an administrator theme with a number of useful submodules.
 [https://www.drupal.org/project/gin](https://www.drupal.org/project/gin)
 
 Beautiful Admin theme. In appearance settings, set the admin theme to Gin for this to take effect.
-
-##### Gin Login
-
-Todo: Check if this is still needed after the Microsoft 365 integration.
-
-[https://www.drupal.org/project/gin_login](https://www.drupal.org/project/gin_login)
-
-Improved login page.
 
 ##### Gin Toolbar
 

@@ -1,10 +1,10 @@
 # Welcome
 
-These docs are for Drupal websites built for Humber ITS. 
+These docs are for Drupal 10 websites built for Humber ITS. 
 
 ## Using these Docs
 
-These documents provide information for Developers working on Humber ITS sites. Content is organized into separate pages. Alternatively, you can use the search feature to search across all of the pages. Some parts of these docs link to external documentation in order to avoid unnecessary duplication. 
+Documentation is organized into separate pages which attempt to group similar information together in an intuitive way. It is also recommended to use the search feature as some processes require information from multiple pages. 
 
 ### Pages
 

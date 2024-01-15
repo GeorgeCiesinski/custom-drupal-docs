@@ -74,7 +74,7 @@ TO 'itsuser'@'localhost';
 
 ### Exporting & Importing MySQL dump
 
-When it comes time to migrate the local database to staging or production, or vice versa, it will become necessary to Export the data from one database, and Import it into the other. This can be done in MySQL workbench. 
+A database can be backed up by exporting it to a `.sql` dump file. This can later be used during [first deployment](development-environments#first-deployment) or to restore a website that has become corrupt or lost data.
 
 #### Exporting data
 
@@ -82,6 +82,8 @@ When it comes time to migrate the local database to staging or production, or vi
 2. Click Server > Data Export. 
 3. Checkmark the name of the database, and select "Export to Self-Contained File" in the **Export Options**. 
 4. Click Start Export, and the database should export to a file similar to `date.sql`. 
+
+**Note:** Ensure that you [fix collation](#fixing-collation) before you attempt to import this into the staging environment running an older version of SQL. 
 
 #### Importing data
 
@@ -91,7 +93,7 @@ When it comes time to migrate the local database to staging or production, or vi
 4. Select the name of the database in **Default Schema to be Imported To**. 
 5. Click Start Import. The import process should output a success message. If it outputs an error instead, read below. 
 
-#### Error 1273
+##### Error 1273
 
 During the import process, you may experience an error similar to: 
 
@@ -111,15 +113,18 @@ Collation determines how strings are sorted in the database, including case, and
 #### Fixing Collation
 
 1. If no MySQL dump exists yet, create one by following the steps in [Importing Data](#importing-data). This should result in a `dump-name.sql` file. 
-2. Run SED on the sql dump to replace the unrecognized collation with one that SQL 5.7 understands. It is necessary to run SED twice in order to replace both the collation and the charset: 
+2. Create a copy of this file, and rename it `dump-name-57.sql` so that two SQL dumps exist. The original will be for SQL 8, while the duplicate will be for SQL 5.7
+3. Run SED on the sql dump to replace the unrecognized collation with one that SQL 5.7 understands. It is necessary to run SED twice in order to replace both the collation and the charset: 
 
 ```title="Using SED to fix collation"
 # Fix Collation
-sed -i '' s/utf8mb4_0900_ai_ci/utf8_general_ci/g dump-name.sql
+sed -i '' s/utf8mb4_0900_ai_ci/utf8_general_ci/g dump-name-57.sql
 
 # Fix Charset
-sed -i '' s/utf8mb4/utf8/g dump-name.sql
+sed -i '' s/utf8mb4/utf8/g dump-name-57.sql
 ```
+
+**Note:** Ensure you only run the SED commands on the `57` dump so that the original dump remains unchanged.
 
 **Note:** SED replaces one string of text with another. In a MySQL dump file, this alters the collation defined in multiple parts of the file. 
 
