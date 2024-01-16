@@ -90,4 +90,4 @@ The best practices section is especially worth a read as it helps avoid certain 
 
 #### PHP
 
-[https://www.drupal.org/docs/develop/standards/php] contains numerous links including coding standards, API, and much more. 
+[PHP](https://www.drupal.org/docs/develop/standards/php) contains numerous links including coding standards, API, and much more. 

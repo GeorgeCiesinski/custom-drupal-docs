@@ -82,14 +82,6 @@ $settings['trusted_host_patterns'] = [
 
 This is an array containing multiple comma-separated lines with the various host patterns. The standard is to indent each line with two spaces. The patterns themselves are defined using REGEX. 
 
-##### Update Free Access
-
-This setting is used during core updates. 
-
-Todo:
-
-* Complete this section
-
 ##### Change the Database Connection
 
 At the bottom of the `settings.php` file, you can find `$databases['default']['default']` which is an array containing the database connection details. On a local environment, this will point at the local MySQL database. The staging environment will also have its own database, and the same is true for the production environment.
@@ -385,8 +377,8 @@ $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\R
 
 ### Generate Key and Cert Files
 
-1. `cd` into a directory where you can keep your key and cert files. One recommendation is to keep both files in a folder called `saml_cert` in your Drupal root directory.
-1. Once you have changed directories to the desired folder, run the below command and follow the directions in the prompts.
+1. Create a folder for your key and cert files. One option is to keep both files in a folder called `saml_cert` in your Drupal root directory.
+1. `cd` into the desired folder and run the below command and follow the directions in the prompts.
 
 ```
 openssl req -new -x509 -days 3652 -nodes -out sp.crt -keyout sp.key
@@ -412,36 +404,56 @@ As the settings page contains multiple tabs and multiple sections within the tab
 1. Under "Type of values to save for the key/certificate" select "File"
 1. Under "Private Key filename" and "X.509 Certificate Filename" enter the absolute paths for both files. This should look similar to `/var/www/websites/site_name/saml_cert/sp.key` & `/var/www/websites/site_name/saml_cert/sp.crt`
 
+![Service Provider](assets/drupal-sites/service-provider.png){ width="500" }
+
 **Important:** After you have configured the Service Provider Section, your Project Manager should connect you with Digital Solutions. You will need to provide them with the below information, and they will provide you with a metadata URL you will need for the next section. 
 
 1. App Name: Name of your app.
-1. Entity ID: The ID configured in the Service Provider Sectoin.
-1. Reply URL: This is listed in the Service Provider Section beside "Assertion Consumer Service".
-1. Who needs access: Which department or individuals should have access to the site.
+2. Entity ID: The ID configured in the Service Provider Section.
+3. Reply URL: This is listed in the Service Provider Section beside "Assertion Consumer Service".
+4. Who needs access: Which department or individuals should have access to the site.
+
+![Available Updates](assets/drupal-sites/reply-url.png){ width="500" }
 
 ##### Identity Provider Section
 
-SAML Authentication doesn't have any way of parsing the metadata URL, so at this time it is recommended to open this URL in the browser and `ctrl + f` the information you need.
+SAML Authentication doesn't have any way of parsing the metadata URL, so at this time it is recommended to open this URL in the browser to view the xml, and `ctrl + f` the information you need.
 
-1. Enter the Entity ID from the metadata URL. This should look like `entityID="long-id"`
-1. Enter the Single Sign On Service & Single Logout Service from the metadata URL. This will start with `<SingleSignOnService...` & `<SingleLogoutService...`
-1. Below "Type of values to save for the certificate(s)" select "Configuration", and in the "Certificate" textbox, paste in the X.509 certificate from the metadata URL. This will start with `<X509Certificate>`
+1. For "Entity ID", find the value in `entityID=`
+2. For "Single Sign On Service", find the value in `<SingleSignOnService...`
+3. For "Single Logout Service", find the value in `<SingleLogoutService...`
+4. For "Type of values to save for the certificate(s)" select `Configuration`
+5. For "Certificate", paste in the X.509 certificate from the metadata URL. This will start with `<X509Certificate>`
+
+![Identity Provider](assets/drupal-sites/identity-provider.png){ width="500" }
+
+![Certificate](assets/drupal-sites/certificate.png){ width="500" }
 
 ##### User Info and Syncing Section
 
-1. For "Unique ID attribute" paste `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` which is the Azure username attribute, and is used as the unique identifier for SSO.
+1. For "Unique ID attribute" paste `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name` which is the Azure username attribute, and is used as the unique identifier for SSO. If this doesn't work, you can view the XML for all the available attributes.
 1. To enable name matching (read below for more information), checkmark "Enable matching on name" under "Attempt to link SAML data to existing local users".
 1. Ensure that you checkmark which names are eligible for matching to their SSO accounts. 
 1. Enable "Synchronize email address on every login" for the email address to be updated automatically.
 1. For "User name attribute" enter `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`
 1. For "User email attribute" enter `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` 
 
+![Name Matching](assets/drupal-sites/name-matching.png){ width="500" }
+
+![Synchronizing](assets/drupal-sites/synchronizing.png){ width="500" }
+
 **Name Matching & User Creation:** Name matching allows Drupal to match an existing user with the SSO account when the user logs in. This requires creating the user first with their username@humber.ca, and then logging in with the user. If you require new users to be created when they login by SSO for the first time, you must instead enable "Create users from SAML data". 
+
+##### SAML Message Construction
+
+At the time of writing this guide, this section can be left unchanged.
 
 ##### SAML Message Validation Section
 
 1. Enable "Retrieve logout signature parameters from $_SERVER['REQUEST']"
 1. Disable "Require messages to be signed"
+
+![Message Validation](assets/drupal-sites/message-validation.png){ width="500" }
 
 ##### Debugging Section
 
@@ -449,12 +461,23 @@ There are no settings that need to be turned on in this section, but it provides
 
 #### User Field Mapping Tab
 
-This tab is for configuring attribute mapping. By default, Drupal users only have usernames. If you need user accounts to also sync names, you need to configure attribute mapping. 
+This tab is for configuring attribute mapping, and these settings are optional. By default, Drupal users only have usernames. If you need user accounts to also sync names, you need to first create a new user field, and then configure attribute mapping in SAML Authentication. 
 
-1. First, you need to add a name field in Account Settings. You can do this by going to **Configuration -> People -> Account Settings -> Manage Fields**. Then, click "Create a New Field". If you want to have the complete Display Name (first and last name combined) then simply create a "Display Name" field with the field type "Text (plain)". You can also configure the "Manage Form Display" and "Manage Display" sections to your liking. Once this is done, go back to the User Field Mapping tab under SAML Authentication settings. 
+##### Adding a User Field
+
+1. First, you need to add a name field in Account Settings. You can do this by going to **Configuration -> People -> Account Settings -> Manage Fields**. 
+2. Click "Create a New Field". If you want to have the complete Display Name (first and last name combined) then simply create a "Display Name" field with the field type "Text (plain)". You can also configure the "Manage Form Display" and "Manage Display" sections to your liking. 
+3. Once this is done, go back to the User Field Mapping tab under SAML Authentication settings. 
+
+![User Fields](assets/drupal-sites/user-fields.png){ width="500" }
+
+**Note:** The Display Name attribute is the full name of the user, but it is also possible to get the givenname and surname of the user using different attributes from the Metadata URL. You can find the complete list by looking under `<fed:ClaimTypesOffered>` in the Metadata URL. 
+
+##### Configure Attribute Mapping
+
 1. Click "Add Mapping". For "SAML Attribute", you can add `http://schemas.microsoft.com/identity/claims/displayname`. For "User Field" you can select the field you created in the previous step. 
 
-**More Information about Names:** The Display Name attribute is the full name of the user, but it is also possible to get the given name and surname of the user using different attributes from the Metadata URL. You can find the complete list by looking under `<fed:ClaimTypesOffered>` in the Metadata URL. 
+![Attribute Mapping](assets/drupal-sites/attribute-mapping.png){ width="700" }
 
 ## Administration
 
