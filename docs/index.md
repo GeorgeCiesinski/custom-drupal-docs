@@ -22,8 +22,6 @@ Documentation is organized into separate pages which attempt to group similar in
 
 [Developer Tools](./developer-tools.md) - Information about CLI commands, servers, databases, and other tools used to develop the Drupal sites. 
 
-[Glossary](./glossary.md) - Glossary terms used in these docs. 
-
 ## Development Information
 
 ### Start Date

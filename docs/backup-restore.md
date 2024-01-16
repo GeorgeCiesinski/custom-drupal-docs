@@ -109,7 +109,7 @@ The Drupal installation contains protected files and directories that make it di
 
 The source code can be backed up using the CLI:
 
-1. You can [use tar](developer-tools.md#gzip--tar) to back up the entire [root folder](glossary.md#root-folder). 
+1. You can [use tar](developer-tools.md#gzip--tar) to back up the entire root folder. 
 
 ```title="Zip project directory using tar"
 tar -czvf YYYY-MM-DD-project.tar.gz cab

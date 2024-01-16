@@ -81,7 +81,7 @@ The below modules are unique to the ITS site. In addition to these, check out [D
 
 ## Directory
 
-The Humber Directory is an existing site located at [https://humber.ca/directory/](https://humber.ca/directory/#). This site was developed by Perceptible and is hosted on [zandee.humber.org](zandee.humber.org). There is no staging environment setup for this site, so all changes must be made carefully in the production environment, or tested before hand on a local environment.
+The Humber Directory is an existing site located at [https://humber.ca/directory/](https://humber.ca/directory/#). This site was developed by Perceptible and is hosted on `zandee.humber.org`. There is no staging environment setup for this site, so all changes must be made carefully in the production environment, or tested before hand on a local environment.
 
 ### Editing or Adding Departments
 

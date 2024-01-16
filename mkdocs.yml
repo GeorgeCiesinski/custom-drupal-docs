@@ -9,7 +9,6 @@ nav:
   - 'development-environments.md'
   - 'backup-restore.md'
   - 'developer-tools.md'
-  - 'glossary.md'
 theme:
   name: material
   logo: assets/humber-logo-white-150x150.svg

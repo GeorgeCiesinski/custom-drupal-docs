@@ -60,4 +60,4 @@ In addition to the above settings, it is necessary to disable the caching of sta
 
 ### Starterkit
 
-In the past, Drupal themes were created manually by creating the required folders, configurations, and files. Today, it is a bit easier thanks to Starterkit. This tool is built into the latest versions of Drupal and uses a PHP script to generate a basic subtheme of [Stable 9](glossary.md#stable-9). 
+In the past, Drupal themes were created manually by creating the required folders, configurations, and files. Today, it is a bit easier thanks to Starterkit. This tool is built into the latest versions of Drupal and uses a PHP script to generate a basic subtheme of Stable 9. 
