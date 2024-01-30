@@ -4,18 +4,6 @@ Code standards are typically a good idea as it makes it easier to collaborate an
 
 It is especially recommended to follow standards when developing a Drupal site as much of the documentation and forum posts adhere to standards.
 
-## Version Control
-
-The source code is backed up using [Git](./developer-tools.md#git). This is mostly used to back up snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
-
-**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, see [Backup and Restore](backup-restore.md).
-
-### Gitignore
-
-A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
-
-Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
-
 ## Humber Standard
 
 ### Web Accessibility Compliance

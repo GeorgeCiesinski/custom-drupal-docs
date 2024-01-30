@@ -74,7 +74,7 @@ TO 'itsuser'@'localhost';
 
 ### Exporting & Importing MySQL dump
 
-A database can be backed up by exporting it to a `.sql` dump file. This can later be used during [first deployment](development-environments#first-deployment) or to restore a website that has become corrupt or lost data.
+A database can be backed up by exporting it to a `.sql` dump file. This can later be used during [first deployment](development-environments.md#first-deployment) or to restore a website that has become corrupt or lost data.
 
 #### Exporting data
 

@@ -34,7 +34,7 @@ The staging environment is a server space used to upload and test the developmen
 
 The source code can be deployed to the staging or production servers by cloning the Git repository. Humber sites typically contain a `.gitignore` file which tells Git to ignore `/web/sites/default/files` directory and `settings.php`, so a few additional steps are required during deployment. 
 
-1) [Import the Database backup](database#importing-data) to the server database. Ensure that you import the `57` version of the dump which is compatible with Humber's SQL 5.7 setup. 
+1) [Import the Database backup](database.md#importing-data) to the server database. Ensure that you import the `57` version of the dump which is compatible with Humber's SQL 5.7 setup. 
    
 2) cd into the site directory, and clone the Git repository into the current `.` directory: 
 
@@ -84,7 +84,7 @@ git reset --hard
 git pull
 ```
 
-2) Ensure you have [exported config locally](#exporting-config), and drag the resulting folder into the `/web/sites/default/files/` directory in the staging or production environment. This is necessary for the next part of the deployment process to be successful.
+2) Optional: Make any changes required in `settings.php` or the config if needed prior to deploying.
 
 3) Deploy the changes and disable maintenance mode.
 

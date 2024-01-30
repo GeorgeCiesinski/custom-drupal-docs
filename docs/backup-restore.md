@@ -6,11 +6,25 @@ The Site Maintenance message informs regular users the site is under maintenance
 
 [Enabling and Disabling Maintenance Mode](https://www.drupal.org/docs/user_guide/en/extend-maintenance.html)
 
+## Version Control
+
+The source code is backed up using [Git](./developer-tools.md#git). This creates snapshots of the site throughout development. For example, if the Drupal theme needs to be modified, you may branch off from the `develop` branch to create a `feature/detailed-name` branch using Git, and make your changes there. In the event something goes wrong and the theme completely breaks, you can simply checkout the `develop` branch to return to a working version.
+
+**Note:** this is not a complete back-up of the site, but is instead used to create snapshots of the site throughout development. To see how to create a backup, read the [Backups](#backups) section below.
+
+### Gitignore
+
+A gitignore is used to ensure sensitive files or unneeded files are not backed up using version control. For example, the `settings.php` file contains sensitive information including the database connection information, and should be backed up separately. For this reason it is included on the `.gitignore` so that it is ignored by Git. 
+
+Learn more about [Setting up the .gitignore file](https://www.drupal.org/docs/user_guide/en/extend-git.html). 
+
 ## Backups
 
 It is important to back up the website frequently to prevent data loss. A backup consists of the site's source code, and a MySQL dump of the database. 
 
-It is an especially good idea to carry out a full backup when:
+While GIT version control is very useful for development, Drupal sites are very closely tied to the database, so using a snapshot that relies on different tables than exist in the database can lead to numerous site errors. For this reason, it is recommended to create a Tar backup of the site root, and corresponding SQL dump that is stored with the site root backup. During the restore process, both parts of the site can be restored without worrying about a version or table mismatch. 
+
+It is recommended to backup frequently to avoid data loss, as well as before carrying out any of the below processes:
 
 * Updating or Upgrading
 * Migrating, copying, moving, or replacing files or the whole site
@@ -148,6 +162,19 @@ Once the backup is created, you can once again harden the permissions using [chm
 
 Change the `project/web/sites/default` directory to permissions 555, and the `project/web/sites/default/settings.php` file to permissions 444. 
 
+### Testing Backups
+
+Backups, especially for the production site, should be tested before making any changes. This can be done with the below process. 
+
+1. Create a backup database schema and give your local user the required privileges to use it.
+2. Import the database dump you created in [Backup Database](#backup-database).
+3. Create a new directory for the backup site and create a [vhosts](developer-tools.md#configuring-virtual-hosts) and [hosts](developer-tools.md#defining-a-new-host) entry so the directory is accessible in your browser.
+4. Extract the backup you created into this directory. 
+5. Modify your settings.php. You will need to add the URL you created in vhosts and hosts to your trusted hosts configuration, and you will need to alter the database connection information to match the backup database you created in step 1. Be mindful of any spelling errors or missed commas/apostrophes in the trusted hosts array.
+6. Attempt to access this URL. 
+
+**Note:** If you have configured SAML, you may get a "Too many redirects" error. In that case, access your URL with `/user' at the end to bypass the SAML login page, and go straight to the built in login page for the site. You can login as any user you allowed to login without using SAML. 
+
 ## Restore
 
 Once a backup is created, it can be used to restore the website or to create a new installation of the site. This can be useful to create a development site or production site. 
@@ -170,7 +197,7 @@ If unzipping the zip file creates a new subdirectory, move the contents of this 
 
 In order to restore the database, it is first necessary to drop existing tables: 
 
-1. [Drop tables](database#drop-database-tables) in the outdated database. 
+1. [Drop tables](database.md#drop-database-tables) in the outdated database. 
 
 2. Using MySQLWorkbench, go to the menu and click `server` > `Data Import`.
 

@@ -553,3 +553,11 @@ drush updb
 ```shell title="Drush Watchdog"
 drush watchdog:show
 ```
+
+#### Uninstall Module
+
+A common issue in Drupal is when you enable an outdated mod in the Extend menu and the site breaks down. In some cases it may display a `typeerror` or say the site cannot be reached right now. When this happens, it is not possible to go to the Extend menu and disable the newly enabled extension. In this case, you can use Drush to uninstall the module: 
+
+```shell title="Drush Uninstall"
+drush pm:uninstall module_name
+```
