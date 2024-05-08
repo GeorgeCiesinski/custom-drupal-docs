@@ -1,6 +1,6 @@
 ## MySQL
 
-MySQL is the main database used in the Humber development and production environments. This section outlines some common use cases.
+MySQL is one of the databases that works with Drupal. 
 
 ### Installation
 

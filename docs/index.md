@@ -1,6 +1,6 @@
 # Welcome
 
-These docs are for Drupal 10 websites built for Humber ITS. 
+These docs are for Drupal 10 websites.
 
 ## Using these Docs
 
@@ -9,8 +9,6 @@ Documentation is organized into separate pages which attempt to group similar in
 ### Pages
 
 [Drupal Sites](./drupal-sites.md) - Information shared by all Drupal sites. This contains common practices, maintenance, and shared modules.
-
-[Websites](./websites.md) - Information unique to each ITS Website, including modules, roles, and views.
 
 [Theming](./theming.md) - Information about theming the Drupal Sites.
 

@@ -1,10 +1,6 @@
 # Theming
 
-Drupal relies on contributed and custom themes to tell it how to display page content. This section describes the custom Humber theme as well as custom tools used to create the theme, and information that helps to make changes in the future. 
-
-## Humber Theme
-
-The Humber Theme is a sub theme of Stable 9 and has been customized to meet Humber's web development guidelines. 
+Drupal relies on contributed and custom themes to tell it how to display page content. 
 
 ## Generating a New Theme using Starterkit
 
@@ -16,11 +12,9 @@ php core/scripts/drupal generate-theme theme-name
 
 This generates a new theme in the `/themes` directory which can then be installed normally. 
 
-## Using the Humber Theme in a Drupal Site
+## Using the Custom Theme in a Drupal Site
 
-The Humber theme can be added into new Drupal sites as a [git subtree](developer-tools.md#git-subtree). You can find the repository for the theme [here](https://github.com/Humber-ITS/humber). The `README.md` file contains the instructions about how to add the theme to your project, pull, and push updates. 
-
-The custom Humber theme should be placed into the `project-folder/web/themes` directory. 
+The custom theme should be placed into the `project-folder/web/themes` directory. 
 
 ## Development Mode
 

@@ -4,17 +4,6 @@ Code standards are typically a good idea as it makes it easier to collaborate an
 
 It is especially recommended to follow standards when developing a Drupal site as much of the documentation and forum posts adhere to standards.
 
-## Humber Standard
-
-### Web Accessibility Compliance
-
-[HUMBER WEB ACCESSIBILITY COMPLIANCE (AODA)](https://humber.ca/tutorial/web-accessibility-compliance.html) - provide access to the WCAG Quick-Reference guide and AODA Compliance Reference, as well as various tools that assist in evaluating Web Accessibility. 
-
-### Humber Interim Web Guidelines
-
-[Humber Interim Web Guidelines](https://humber.ca/brand/sites/default/files/publications/interim-web-guidelines.pdf
-) - provides guidelines for standards Humber Websites should meet.
-
 ## Code Standard
 
 ### Drupal

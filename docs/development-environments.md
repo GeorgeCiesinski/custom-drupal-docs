@@ -1,6 +1,6 @@
 # Development Environments
 
-The Humber ITS Drupal sites are developed across multiple development environments to ensure it is easy and safe to update them in the future. 
+Drupal sites are developed across multiple development environments to ensure it is easy and safe to update them in the future. 
 
 Development is done in a local environment and a staging environment. The finished websites live in the production environment. 
 
@@ -32,14 +32,14 @@ The staging environment is a server space used to upload and test the developmen
 
 #### First Deployment
 
-The source code can be deployed to the staging or production servers by cloning the Git repository. Humber sites typically contain a `.gitignore` file which tells Git to ignore `/web/sites/default/files` directory and `settings.php`, so a few additional steps are required during deployment. 
+The source code can be deployed to the staging or production servers by cloning the Git repository. Sites typically contain a `.gitignore` file which tells Git to ignore `/web/sites/default/files` directory and `settings.php`, so a few additional steps are required during deployment. 
 
-1) [Import the Database backup](database.md#importing-data) to the server database. Ensure that you import the `57` version of the dump which is compatible with Humber's SQL 5.7 setup. 
+1) [Import the Database backup](database.md#importing-data) to the server database. Ensure that you import the `57` version of the dump into SQL 5.7 databases. 
    
 2) cd into the site directory, and clone the Git repository into the current `.` directory: 
 
 ```shell title="Clone the repository into the current directory using ."
-git clone git@github.com:Humber-ITS/project-name.git .
+git clone repository_url .
 ```
 
 3) Use an SFTP app such as Cyberduck to drag the `/web/sites/default/files` folder and `settings.php` file into `/web/sites/default`.
@@ -104,7 +104,7 @@ chmod 777 -R web/sites/default/files
 
 ### Using Load Balancer
 
-Humber web servers do not interact with clients directly. Rather, they see the load balancer as their primary client. Because of this, it can cause some unexpected behavior in Drupal sites such as some models thinking the site uses `http` instead of `https`. Fixing this requires configuration changes to be made in the `settings.php` file.
+Load Balancers can cause some unexpected behavior in Drupal sites such as some models thinking the site uses `http` instead of `https`. Fixing this requires configuration changes to be made in the `settings.php` file.
 
 Learn more about [Using Load Balancers](https://www.drupal.org/node/425990). 
 

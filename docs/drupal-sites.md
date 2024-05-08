@@ -2,13 +2,13 @@
 
 ## Introduction
 
-This document contains information that is shared between all the Humber ITS Websites built using Drupal. This includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
+This documents includes information about settings, core and module updates, backing up and restoring sites, content updates, or possible bugs. 
 
 **Warning:** There are many links I have included across various sections of this documentation for further reading. Many of these links contain good information, but many also contain outdated information from older versions of Drupal. 
 
 ### Stack
 
-Humber ITS Drupal Sites use the LAMP stack:
+One stack that works well with Drupal is the LAMP stack:
 
 * Linux OS
 * Apache Server
@@ -97,7 +97,7 @@ Learn more about [Changing the Database Connection in Drupal's Settings.php](htt
 
 ##### Reverse-proxy Settings
 
-Humber servers operate over a load balancer which causes Drupal sites to think they are using the http protocol instead of https. This becomes more apparent when Drupal sites need to generate URLs like a metadata URL or ACS URL. If your site is generating these URLs with `http://` instead of `https://` then you need to add the below to your `settings.php` file:
+A Load Balancer may result in http protocol instead of https. This becomes more apparent when Drupal sites need to generate URLs like a metadata URL or ACS URL. If your site is generating these URLs with `http://` instead of `https://` then you need to add the below to your `settings.php` file:
 
 ```php title="Reverse-proxy Config"
 $settings['reverse_proxy'] = TRUE;
@@ -109,7 +109,7 @@ $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\R
 
 ### Core and Module Update
 
-Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. In many cases, it is beneficial to update these components to ensure that the Humber site is secure and working correctly.
+Drupal core and the various modules the site uses are frequently updated to address security issues and bugs that come up over time. 
 
 **Warning:** It is highly recommended to backup the site and database before carrying out an update. Updating can run automatic scripts that update the database, and if anything goes wrong it can cause source code and data loss that may be unrecoverable.
 
@@ -255,7 +255,7 @@ Learn more about [Uninstalling Modules](https://www.bing.com/search?pglt=41&q=dr
 
 ### Using Composer to Manage Dependencies
 
-All the Humber ITS Websites are builit with Composer. This makes adding and updating modules very simple. 
+Composer makes adding and updating modules very simple. 
 
 Learn more about [Managing Dependencies using Composer](https://www.drupal.org/docs/develop/using-composer/manage-dependencies#adding-modules).
 
@@ -359,7 +359,7 @@ Provides field level permissions for different roles.
 
 ## SAML Setup
 
-SAML is a standard used to provide SSO functionality within Humber's Microsoft Azure environment. 
+SAML can be used with the Microsoft Azure environment. 
 
 First, install the SAML Authentication module and then proceed with the following sections. 
 
@@ -373,7 +373,7 @@ $settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
 $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
 ```
 
-**Note:** This step is required due to Humber's AWS servers being behind a load balancer. This prevents the site from seeing it's actual IP and protocol and Drupal falsely thinks that it is using `http` instead of `https` protocol. As `https` is required for Humber's Azure policy, these settings are needed to ensure Drupal sees the correct protocol. 
+**Note:** This step is required when using a load balancer. This prevents the site from seeing it's actual IP and protocol and Drupal falsely thinks that it is using `http` instead of `https` protocol. 
 
 ### Generate Key and Cert Files
 
@@ -442,7 +442,7 @@ SAML Authentication doesn't have any way of parsing the metadata URL, so at this
 
 ![Synchronizing](assets/drupal-sites/synchronizing.png){ width="500" }
 
-**Name Matching & User Creation:** Name matching allows Drupal to match an existing user with the SSO account when the user logs in. This requires creating the user first with their username@humber.ca, and then logging in with the user. If you require new users to be created when they login by SSO for the first time, you must instead enable "Create users from SAML data". 
+**Name Matching & User Creation:** Name matching allows Drupal to match an existing user with the SSO account when the user logs in. This requires creating the user first with their username@domain.ca, and then logging in with the user. If you require new users to be created when they login by SSO for the first time, you must instead enable "Create users from SAML data". 
 
 ##### SAML Message Construction
 
@@ -483,9 +483,7 @@ This tab is for configuring attribute mapping, and these settings are optional. 
 
 ### Admin Toolbar
 
-The Admin toolbar has quick links to various Administrative features. It has the ability to link to content creation pages, define new content types and structures, change the appearance of the site, add or remove modules, administrate people, generate reports and display site status, change the configuration of the site, and much more. The Humber ITS Websites use the [Gin Admin Theme](#gin-theme) which changes the look of the Admin toolbar into something more modern.
-
-It is vital to familiarize yourself with the toolbar. 
+The Admin toolbar has quick links to various Administrative features. It has the ability to link to content creation pages, define new content types and structures, change the appearance of the site, add or remove modules, administrate people, generate reports and display site status, change the configuration of the site, and much more. It is vital to familiarize yourself with the toolbar. 
 
 ### One Time Login
 
