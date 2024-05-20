@@ -1,12 +1,16 @@
-# Humber Websites Docs
+Custom Drupal Docs
 
-This repository houses the documentation for multiple Humber ITS Websites: 
+This repository contains custom Drupal documentation and links to official docs. 
 
-* its-site
-* its-cab
-* Humber Drupal Theme
+## Motivation
 
-These docs are built using [MkDocs](https://www.mkdocs.org/) and the [Material Theme](https://squidfunk.github.io/mkdocs-material/). MkDocs is a static site generator that converts markdown files into beautiful documentation and makes the process of creating documentation very quick and easy.  
+I have been building Drupal sites for a couple years and have built several Drupal sites professionally. After coming from a background in Python and React, I was disappointed with the poor state of Drupal official docs. Sometimes is difficult to tell which documentation is for older or newer versions of Drupal. When you find documentation for the right version, you can't always be sure the documentation is up to date or accurate. There are many amazing modules, some of which completely lack documentation. 
+
+My goal with these docs is to aggregate the helpful and up to date documentation where it exists, and to create my own custom documentation compiling the lessons I learned. These docs were created for my own use, but if there is interest in others using these docs, I may open this up to public contributions.
+
+## MkDocs
+
+These docs were built using [MkDocs](https://www.mkdocs.org/).
 
 ## Using the Docs
 
@@ -59,6 +63,3 @@ These steps are for first time setup after cloning this repository.
 
 MkDocs can also build the production version of the documentation site. Use the command `mkdocs build` to build the production version. This will update the `site/` directory with the files and assets needed to open the site on the production server. 
 
-### Pushing Updates
-
-Updates can be safely pushed to the develop branch. This should be updated frequently and kept up-to-date with source material.
